@@ -14,6 +14,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 
+import pomoce.MojErrorHandler;
+
 public class P12_SredniaCenaDom_Walidacja {
 
 	public static void main(String[] args) {

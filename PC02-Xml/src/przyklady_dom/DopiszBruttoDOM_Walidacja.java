@@ -45,7 +45,7 @@ public class DopiszBruttoDOM_Walidacja {
 			MojErrorHandler eh = new MojErrorHandler();
 			builder.setErrorHandler(eh);
 			Document doc = builder.parse(args[0]);
-			if(eh.czyBylBlad()) {
+			if(eh.bylyBledy()) {
 				System.out.println("Blad podczas parsowania, nie dzialam dalej.");
 				return;
 			}
@@ -80,7 +80,7 @@ public class DopiszBruttoDOM_Walidacja {
 			MojErrorHandler eh2 = new MojErrorHandler();
 			validator.setErrorHandler(eh2);
 			validator.validate(new DOMSource(doc));
-			if(eh2.czyBylBlad()) {
+			if(eh2.bylyBledy()) {
 				System.out.println("Blad podczas walidacji, nie zapisuje pliku.");
 				return;
 			}
