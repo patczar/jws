@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="sklep"> <!-- asortyment sklepu -->
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="kategoria" type="TKategoria" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="towar" type="TTowar" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+		<xs:key name="KKategorieWSklepie">
+			<xs:selector xpath="kategoria"/>
+			<xs:field xpath="@id-kategorii"/>
+		</xs:key>
+		<xs:key name="KTowaryWSklepie">
+			<xs:selector xpath="towar"/>
+			<xs:field xpath="@id-towaru"/>
+		</xs:key>
+		<xs:keyref name="KKategorieZTowarow" refer="KKategorieWSklepie">
+			<xs:selector xpath="towar"/>
+			<xs:field xpath="@id-kategorii"/>
+		</xs:keyref>
+	</xs:element>
+
+	<xs:element name="cenniki"> <!-- zbiór cenników z różnych (w założeniu kolejnych) dat -->
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="cennik" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+		<xs:unique name="KDatyWCennikach">
+			<xs:selector xpath="cennik"/>
+			<xs:field xpath="data"/>
+		</xs:unique>
+	</xs:element>
+
+	<xs:element name="cennik"> <!-- cennik z jednego dnia -->
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="data" type="xs:date"/>
+				<xs:element name="towar" type="TTowar" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+		<xs:unique name="KTowaryWCenniku">
+			<xs:selector xpath="towar"/>
+			<xs:field xpath="@id-towaru"/>
+		</xs:unique>
+	</xs:element>
+
+	<xs:complexType name="TKategoria">
+		<xs:sequence>
+			<xs:element name="nazwa" type="TNazwa"/>
+			<xs:element name="opis" type="TTekst" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="id-kategorii" type="TId" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="TTowar">
+		<xs:sequence>
+			<xs:element name="nazwa" type="TNazwa"/>
+			<xs:element name="opis" type="TTekst" minOccurs="0"/>
+			<xs:element name="cena" type="TKwota"/>
+			<xs:element name="vat" type="TVat"/>
+			<xs:element name="cena-promocyjna" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="TKwota">
+							<xs:attributeGroup ref="APrzedział"/>
+						</xs:extension>
+					</xs:simpleContent>
+			 </xs:complexType>
+			 </xs:element>
+		</xs:sequence>
+		<xs:attribute name="id-towaru" type="TId" use="required"/>
+		<xs:attribute name="id-kategorii" type="TId"/>
+	</xs:complexType>
+
+	<xs:complexType name="TTekst" mixed="true">
+		<xs:group ref="GElementyTekstu" minOccurs="0" maxOccurs="unbounded"/>
+	</xs:complexType>
+	
+	<xs:group name="GElementyTekstu">
+		<xs:choice>
+			<xs:element name="em" type="TTekst"/>
+			<xs:element name="rem" type="TTekst"/>
+			<xs:element name="term" type="TTekst"/>
+			<xs:element name="br">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="link">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="href" type="xs:anyURI" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+	
+	<xs:attributeGroup name="APrzedział">
+		<xs:attribute name="od" type="xs:date" use="required"/>
+		<xs:attribute name="do" type="xs:date" use="required"/>
+	</xs:attributeGroup>
+	
+	<xs:simpleType name="TKwota">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TVat">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="100"/>
+			<xs:fractionDigits value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TNazwa">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="120"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TId">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="32"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
