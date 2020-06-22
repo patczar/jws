@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<sklep>
+<sklep xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="sklep.xsd">
   <kategoria id-kategorii="herbata">
     <nazwa>Herbata</nazwa>
     <opis>Herbata jest dobra.</opis>
@@ -20,7 +20,7 @@
     	<br/>
     	Ten fragment ma być od nowej linii.
     </opis>
-    <cena>12</cena>
+    <cena>13</cena>
     <vat>23</vat>
     <cena-promocyjna od="2011-11-17" do="2011-11-18">10.99</cena-promocyjna>
   </towar>

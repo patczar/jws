@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sklep xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="sklep.xsd">
+  <kategoria id-kategorii="token">
+    <nazwa>token</nazwa>
+    <opis>
+      <em/>
+    </opis>
+  </kategoria>
+  <towar id-kategorii="token" id-towaru="token">
+    <nazwa>token</nazwa>
+    <opis>
+      <em/>
+    </opis>
+    <cena>0.0</cena>
+    <vat>0.0</vat>
+    <cena-promocyjna do="2001-01-01" od="2001-01-01">0.0</cena-promocyjna>
+  </towar>
+</sklep>
