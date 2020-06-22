@@ -47,7 +47,7 @@
     <cena-promocyjna od="2011-04-21" do="2011-04-25">10.49</cena-promocyjna>
   </towar>
 
-  <towar id-kategorii="herbata" id-towaru="lipton25">
+  <pre:towar id-kategorii="herbata" id-towaru="lipton25">
     <nazwa>Lipton 25 szt.</nazwa>
     <opis>
     	Herbata w żółtym pudełku <em>mieszczącym 25 sztuk</em>.<br/>
@@ -55,7 +55,7 @@
     </opis>
     <cena>6.50</cena>
     <vat>23</vat>
-  </towar>
+  </pre:towar>
 
   <towar id-kategorii="kawa" id-towaru="jacobs-k">
     <nazwa>Jacobs Krönung</nazwa>

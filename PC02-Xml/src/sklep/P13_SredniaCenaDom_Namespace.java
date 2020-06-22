@@ -14,17 +14,19 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 
-public class P12_SredniaCenaDom_Walidacja {
+public class P13_SredniaCenaDom_Namespace {
+	
+	private static final String SKLEP_NS = "urn:sklep";
 
 	public static void main(String[] args) {
 		System.out.println("Startujemy..");
 		
 		try {
-			String plik = "pliki/sklep.xml";
+			String plik = "pliki/sklep_ns.xml";
 			String kategoria = "herbata";
 
 			SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Schema schema = sf.newSchema(new File("pliki/sklep.xsd"));
+			Schema schema = sf.newSchema(new File("pliki/sklep_ns.xsd"));
 			
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setSchema(schema);
@@ -57,12 +59,12 @@ public class P12_SredniaCenaDom_Walidacja {
 		double suma = 0.0;
 		int licznik = 0;
 		
-		NodeList listaTowarow = doc.getElementsByTagName("towar");
+		NodeList listaTowarow = doc.getElementsByTagNameNS(SKLEP_NS, "towar");
 		final int len = listaTowarow.getLength();
 		for(int i = 0; i < len; i++) {
 			Element towar = (Element)listaTowarow.item(i);
 			if(Objects.equals(towar.getAttribute("id-kategorii"), kategoria)) {
-				NodeList znalezioneCeny = towar.getElementsByTagName("cena");
+				NodeList znalezioneCeny = towar.getElementsByTagNameNS(SKLEP_NS, "cena");
 				double cena = Double.parseDouble(znalezioneCeny.item(0).getTextContent());
 				suma += cena;
 				licznik++;
