@@ -49,5 +49,6 @@ public class MojErrorHandler implements ErrorHandler {
 	
 	public boolean bylyBledy() {
 		return listaBledow.size() > 0;
-	}	
+	}
+
 }

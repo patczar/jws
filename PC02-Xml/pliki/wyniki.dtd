@@ -1,0 +1,5 @@
+<!ELEMENT wyniki (wynik*)>
+
+<!ELEMENT wynik EMPTY>
+<!ATTLIST wynik haslo CDATA #REQUIRED
+                liczba CDATA #REQUIRED>

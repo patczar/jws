@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Komentarz -->
+<rooms>
+	<room>
+		<number>2120</number>
+		<floor>1</floor>
+		<equipment projector="false" computers="false"/>
+		<seats>50</seats>
+	</room>
+	<room>
+		<number>3180</number>
+		<floor>2</floor>
+		<equipment projector="true" computers="false"/>
+		<seats>100</seats>
+	</room>
+	<room>
+		<number>3210</number>
+		<floor>2</floor>
+		<equipment />
+		<seats>30</seats>
+	</room>
+	<room>
+		<number>3220</number>
+		<floor>2</floor>
+		<equipment />
+		<seats>30</seats>
+	</room>
+	<room>
+		<number>3230</number>
+		<floor>2</floor>
+		<equipment />
+		<seats>30</seats>
+	</room>
+	<room>
+		<number>4070</number>
+		<floor>3</floor>
+		<equipment projector="true" computers="false"/>
+		<seats>50</seats>
+	</room>
+	<room>
+		<number>4030</number>
+		<floor>3</floor>
+		<equipment projector="true" computers="false"/>
+		<seats>30</seats>
+	</room>
+	<room>
+		<number>4420</number>
+		<floor>3</floor>
+		<equipment projector="true" computers="false"/>
+		<seats>80</seats>
+	</room>
+	<room>
+		<number>5440</number>
+		<floor>4</floor>
+		<equipment projector="true" computers="false"/>
+		<seats>80</seats>
+	</room>
+</rooms>
