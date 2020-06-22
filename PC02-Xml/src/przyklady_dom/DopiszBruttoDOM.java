@@ -21,7 +21,7 @@ public class DopiszBruttoDOM {
 
 	public static void main(String[] args) {
 		try {
-			String wej = "sklep_ns.xml";
+			String wej = "pliki/sklep_ns.xml";
 			String wyj = "sklep_zmieniony.xml";
 			
 			DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
@@ -47,6 +47,7 @@ public class DopiszBruttoDOM {
 				final BigDecimal cenaBruttoZaokr = cenaBrutto.setScale(2, BigDecimal.ROUND_HALF_UP);
 				final String cenaBruttoString = cenaBruttoZaokr.toString();
 				final Element elementCenaBrutto = doc.createElementNS(SKLEP_NS, "cena-brutto");
+				// final Element elementCenaBrutto = doc.createElementNS(SKLEP_NS, "pre:cena-brutto");
 				//towar.appendChild(elementCenaBrutto);
 				towar.insertBefore(elementCenaBrutto, elementVAT);
 				final Text wciecie = doc.createTextNode("\n    ");
