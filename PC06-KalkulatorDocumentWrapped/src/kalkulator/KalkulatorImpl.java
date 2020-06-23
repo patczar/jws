@@ -4,12 +4,12 @@ package kalkulator;
 import javax.jws.WebService;
 import javax.xml.ws.Holder;
 
-@WebService(serviceName = "KalkulatorRPC",
-	portName = "KalkulatorRPCSOAP",
-	endpointInterface = "kalkulator.KalkulatorRPC",
-	targetNamespace = "http://www.example.org/KalkulatorRPC/",
-	wsdlLocation = "/WEB-INF/wsdl/KalkulatorRPC.wsdl")
-public class KalkulatorRPCImpl implements KalkulatorRPC {
+@WebService(serviceName = "Kalkulator",
+	portName = "KalkulatorSOAP",
+	wsdlLocation = "/WEB-INF/wsdl/KalkulatorWrapped.wsdl",
+	endpointInterface = "kalkulator.Kalkulator",
+	targetNamespace = "http://www.example.org/Kalkulator/")
+public class KalkulatorImpl implements Kalkulator {
 	public int inc(int incRequest) {
 		return incRequest+1;
 	}
@@ -31,13 +31,12 @@ public class KalkulatorRPCImpl implements KalkulatorRPC {
 		rest.value = arg1 % arg2;		
 	}
 
-	public float avg(ListaIntow args) {
-		// return args.getArg().stream().mapToInt(x->x).average().getAsDouble();
-		
+	public float avg(java.util.List<java.lang.Integer> args) {
 		float suma = 0;
-		for(int x : args.getArg()) {
+		for(int x : args) {
 			suma += x;
 		}
-		return suma / args.getArg().size();
+		return suma / args.size();
 	}
+
 }

@@ -78,6 +78,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Mul }
+     * 
+     */
+    public Mul createMul() {
+        return new Mul();
+    }
+
+    /**
+     * Create an instance of {@link MulResponse }
+     * 
+     */
+    public MulResponse createMulResponse() {
+        return new MulResponse();
+    }
+
+    /**
      * Create an instance of {@link Div }
      * 
      */
@@ -91,6 +107,22 @@ public class ObjectFactory {
      */
     public DivResponse createDivResponse() {
         return new DivResponse();
+    }
+
+    /**
+     * Create an instance of {@link Avg }
+     * 
+     */
+    public Avg createAvg() {
+        return new Avg();
+    }
+
+    /**
+     * Create an instance of {@link AvgResponse }
+     * 
+     */
+    public AvgResponse createAvgResponse() {
+        return new AvgResponse();
     }
 
 }

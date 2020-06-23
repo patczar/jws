@@ -78,6 +78,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link MulInput }
+     * 
+     */
+    public MulInput createMulInput() {
+        return new MulInput();
+    }
+
+    /**
+     * Create an instance of {@link MulOutput }
+     * 
+     */
+    public MulOutput createMulOutput() {
+        return new MulOutput();
+    }
+
+    /**
      * Create an instance of {@link DivInput }
      * 
      */
@@ -91,6 +107,22 @@ public class ObjectFactory {
      */
     public DivOutput createDivOutput() {
         return new DivOutput();
+    }
+
+    /**
+     * Create an instance of {@link AvgInput }
+     * 
+     */
+    public AvgInput createAvgInput() {
+        return new AvgInput();
+    }
+
+    /**
+     * Create an instance of {@link AvgOutput }
+     * 
+     */
+    public AvgOutput createAvgOutput() {
+        return new AvgOutput();
     }
 
 }
