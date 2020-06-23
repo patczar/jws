@@ -1,0 +1,43 @@
+ExchangeRatesTable {
+	display: block;
+	margin: 2em auto;
+	page-break-inside: avoid;
+}
+
+Table {
+	display: none;
+}
+
+No, EffectiveDate {
+	display: block;
+	font-size: larger;
+	font-weight: bold;
+}
+
+No {
+	float: left;
+	margin-right: 1em;
+}
+
+EffectiveDate {
+	float: clear;
+}
+
+Rates {
+	display: table;
+	border: 3px black solid;
+	border-collapse: collapse;
+	margin: 0.5em 2em;
+}
+
+Rate {
+	display: table-row;
+}
+
+Currency, Code, Mid {
+	display: table-cell;
+	border: 2px #444444 solid;
+	padding: 0.5em 1em;
+	text-align: center;
+}
+

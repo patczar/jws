@@ -13,9 +13,9 @@ public class Kopiowanie1 {
 
 	public static void main(String[] args) {
 		System.out.println("Przygotowania...");
-		File xml = new File("waluty_2017f.xml");
-		File xsl = new File("kopiowanie1.xsl");
-		File wynik = new File("wynik1.xml");
+		File xml = new File("pliki/waluty_2017f.xml");
+		File xsl = new File("pliki/kopiowanie1.xsl");
+		File wynik = new File("new_Kopiowanie1.xml");
 		
 		// typy Source i Result obejmują różnego typu specyfikacje wejścia i wyjścia transformacji
 		StreamSource src = new StreamSource(xml);

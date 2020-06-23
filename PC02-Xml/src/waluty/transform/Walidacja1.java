@@ -24,8 +24,8 @@ public class Walidacja1 {
 
 	public static void main(String[] args) {
 		System.out.println("Przygotowania...");
-		String xml = "zepsuty.xml";
-		File xsd = new File("waluty.xsd");
+		String xml = "pliki/zepsuty.xml";
+		File xsd = new File("pliki/waluty.xsd");
 		
 		InputSource src = new InputSource(xml);
 		StreamSource xsdSource = new StreamSource(xsd);

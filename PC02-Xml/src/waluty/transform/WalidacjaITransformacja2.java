@@ -6,10 +6,7 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.sax.SAXTransformerFactory;
@@ -28,10 +25,10 @@ public class WalidacjaITransformacja2 {
 
 	public static void main(String[] args) {
 		// String xml = "waluty_2017f.xml";
-		String xml = "zepsuty.xml";
-		String xsd = "waluty.xsd";
-		String xsl = "kopiowanie1.xsl";
-		String wynik = "wynik3.xml";
+		String xml = "pliki/zepsuty.xml";
+		String xsd = "pliki/waluty.xsd";
+		String xsl = "pliki/kopiowanie1.xsl";
+		String wynik = "new.xml";
 		
 		try {
 			MojHandlerWalidacji handler = new MojHandlerWalidacji();

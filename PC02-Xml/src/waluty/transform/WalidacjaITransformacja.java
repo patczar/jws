@@ -22,10 +22,10 @@ public class WalidacjaITransformacja {
 
 	public static void main(String[] args) {
 		// String xml = "waluty_2017f.xml";
-		String xml = "zepsuty.xml";
-		String xsd = "waluty.xsd";
-		String xsl = "kopiowanie1.xsl";
-		String wynik = "wynik2.xml";
+		String xml = "pliki/zepsuty.xml";
+		String xsd = "pliki/waluty.xsd";
+		String xsl = "pliki/kopiowanie1.xsl";
+		String wynik = "new.xml";
 		
 		try {
 			MojHandlerWalidacji handler = new MojHandlerWalidacji();

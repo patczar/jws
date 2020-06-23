@@ -13,9 +13,9 @@ public class Uruchom10_Xalan {
 
 	public static void main(String[] args) {
 		System.out.println("Przygotowania...");
-		File xml = new File("waluty_2017f.xml");
-		File xsl = new File("xsl10.xsl");
-		File wynik = new File("wynik1.xml");
+		File xml = new File("pliki/waluty_2017f.xml");
+		File xsl = new File("pliki/xsl10.xsl");
+		File wynik = new File("new10.xml");
 		
 		int pozycjaOd = 3;
 		int pozycjaDo = 10;

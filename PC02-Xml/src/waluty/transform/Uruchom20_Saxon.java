@@ -13,9 +13,9 @@ public class Uruchom20_Saxon {
 
 	public static void main(String[] args) {
 		System.out.println("Przygotowania...");
-		File xml = new File("waluty_2017f.xml");
-		File xsl = new File("xsl20.xsl");
-		File wynik = new File("wynik2.xml");
+		File xml = new File("pliki/waluty_2017f.xml");
+		File xsl = new File("pliki/xsl20.xsl");
+		File wynik = new File("new20.xml");
 		
 		String dataOd = "2017-03-01";
 		String dataDo = "2017-05-10";
