@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
-<!-- W tej wersji serwer NIE użyje tego pliku WSDL.
-	My "offline" generujemy klasy na podstawie tego WSDL-a, a serwer podczas deploy na podstawie klas generuje własnego WSDL-a.
- -->
+<!-- W tej wersji serwer użyje TEGO pliku WSDL. Podmieni tylko adres. -->
 
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/KalkulatorRPC/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="KalkulatorRPC" targetNamespace="http://www.example.org/KalkulatorRPC/">
 	<wsdl:documentation>
 		To jest dokumentacja napisana przez autora WSDL.
 	</wsdl:documentation>
-
 	<wsdl:types>
 		<xsd:schema targetNamespace="http://www.example.org/KalkulatorRPC/">
 			<xsd:complexType name="ListaIntow">
