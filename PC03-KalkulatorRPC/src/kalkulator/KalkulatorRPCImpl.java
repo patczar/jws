@@ -1,10 +1,11 @@
-package kalkulator.impl;
+package kalkulator;
 
 
-import kalkulator.*;
 import javax.jws.WebService;
 
-@WebService(serviceName = "KalkulatorRPC", endpointInterface = "kalkulator.KalkulatorRPC", targetNamespace = "http://www.example.org/KalkulatorRPC/")
+@WebService(serviceName = "KalkulatorRPC",
+	endpointInterface = "kalkulator.KalkulatorRPC",
+	targetNamespace = "http://www.example.org/KalkulatorRPC/")
 public class KalkulatorRPCImpl implements KalkulatorRPC {
 	public int sub(int arg1, int arg2) {
 		return arg1-arg2;
