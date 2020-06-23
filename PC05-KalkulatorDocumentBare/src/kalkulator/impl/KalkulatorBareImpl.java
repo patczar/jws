@@ -6,6 +6,9 @@ import javax.jws.WebService;
 
 @WebService(serviceName = "KalkulatorBare", endpointInterface = "kalkulator.KalkulatorBare", targetNamespace = "http://www.example.org/KalkulatorBare/")
 public class KalkulatorBareImpl implements KalkulatorBare {
+	// w stylu BARE parametr i wynik nie są dodatkowo opakowywane, muszą opakować się same
+	// każda operacja musi mieć jeden parametr wejściowy, a ich typy (klasy) muszą być unikalne - aby dla każdego był generowany inny element xml
+	
 	public SubOutput sub(SubInput parameters) {
 		SubOutput wynik = new SubOutput();
 		wynik.setResult(parameters.getArg1() - parameters.getArg2());
