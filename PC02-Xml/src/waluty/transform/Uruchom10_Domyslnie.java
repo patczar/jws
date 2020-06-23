@@ -1,4 +1,4 @@
-package dodatkowe_xml.przeksztalcenia;
+package waluty.transform;
 
 import java.io.File;
 
@@ -9,16 +9,13 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-public class Uruchom20_Saxon {
+public class Uruchom10_Domyslnie {
 
 	public static void main(String[] args) {
 		System.out.println("Przygotowania...");
 		File xml = new File("waluty_2017f.xml");
-		File xsl = new File("xsl20.xsl");
-		File wynik = new File("wynik2.xml");
-		
-		String dataOd = "2017-03-01";
-		String dataDo = "2017-05-10";
+		File xsl = new File("xsl10.xsl");
+		File wynik = new File("wynik1.xml");
 		
 		// typy Source i Result obejmują różnego typu specyfikacje wejścia i wyjścia transformacji
 		StreamSource src = new StreamSource(xml);
@@ -27,18 +24,13 @@ public class Uruchom20_Saxon {
 		
 		try {
 			// pobieramy fabrykę transformerów - tutaj nastepuje wybór implementacji (np. czy używamy Saxona)
-			TransformerFactory tf = TransformerFactory.newInstance(
-					"net.sf.saxon.TransformerFactoryImpl",
-					Uruchom20_Saxon.class.getClassLoader());
+			TransformerFactory tf = TransformerFactory.newInstance();
 			
 			System.out.println("Klasa fabryki: " + tf.getClass().getName());
 			
 			// tworzymy transformer na podstawie arkusza XSLT
 			Transformer transformer = tf.newTransformer(xslSource);
 			
-			transformer.setParameter("data-od", dataOd);
-			transformer.setParameter("data-do", dataDo);
-
 			// uruchamiamy przekształcenie XSLT
 			System.out.println("Uruchamiam XSLT...");
 			transformer.transform(src, res);

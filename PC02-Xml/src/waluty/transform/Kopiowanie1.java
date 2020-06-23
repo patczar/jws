@@ -1,4 +1,4 @@
-package dodatkowe_xml.przeksztalcenia;
+package waluty.transform;
 
 import java.io.File;
 
@@ -9,16 +9,13 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-public class Uruchom20_Domyslnie {
+public class Kopiowanie1 {
 
 	public static void main(String[] args) {
 		System.out.println("Przygotowania...");
 		File xml = new File("waluty_2017f.xml");
-		File xsl = new File("xsl20.xsl");
+		File xsl = new File("kopiowanie1.xsl");
 		File wynik = new File("wynik1.xml");
-		
-		String dataOd = "2017-03-01";
-		String dataDo = "2017-05-10";
 		
 		// typy Source i Result obejmują różnego typu specyfikacje wejścia i wyjścia transformacji
 		StreamSource src = new StreamSource(xml);
@@ -33,10 +30,6 @@ public class Uruchom20_Domyslnie {
 			
 			// tworzymy transformer na podstawie arkusza XSLT
 			Transformer transformer = tf.newTransformer(xslSource);
-			
-			// parametry
-			transformer.setParameter("data-od", dataOd);
-			transformer.setParameter("data-do", dataDo);
 			
 			// uruchamiamy przekształcenie XSLT
 			System.out.println("Uruchamiam XSLT...");

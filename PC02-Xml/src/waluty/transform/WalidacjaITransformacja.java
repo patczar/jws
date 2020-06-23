@@ -1,6 +1,4 @@
-package dodatkowe_xml.przeksztalcenia;
-
-import java.io.IOException;
+package waluty.transform;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
@@ -10,28 +8,24 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.sax.SAXSource;
-import javax.xml.transform.sax.SAXTransformerFactory;
-import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-public class WalidacjaITransformacja2 {
+public class WalidacjaITransformacja {
 
 	public static void main(String[] args) {
 		// String xml = "waluty_2017f.xml";
 		String xml = "zepsuty.xml";
 		String xsd = "waluty.xsd";
 		String xsl = "kopiowanie1.xsl";
-		String wynik = "wynik3.xml";
+		String wynik = "wynik2.xml";
 		
 		try {
 			MojHandlerWalidacji handler = new MojHandlerWalidacji();
@@ -41,11 +35,13 @@ public class WalidacjaITransformacja2 {
 
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema schema = schemaFactory.newSchema(new StreamSource(xsd));
-			
-			Validator validator = schema.newValidator();
-			validator.setErrorHandler(handler);
 
+			TransformerFactory tf = TransformerFactory.newInstance();
+			Transformer transformer = tf.newTransformer(new StreamSource(xsl));
+			
 			SAXParserFactory spf = SAXParserFactory.newInstance();
+			spf.setSchema(schema);
+			
 			SAXParser parser = spf.newSAXParser();
 			XMLReader reader = parser.getXMLReader();
 			
@@ -53,14 +49,7 @@ public class WalidacjaITransformacja2 {
 			
 			SAXSource saxSource = new SAXSource(reader, inputSource);
 			
-			SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
-			TransformerHandler th = tf.newTransformerHandler(new StreamSource(xsl));
-			th.setResult(result);
-			
-			SAXResult saxResult = new SAXResult(th);
-			
-			validator.validate(saxSource, saxResult);
-			
+			transformer.transform(saxSource, result);
 			System.out.println("Gotowe");
 			
 			if(handler.czyBylyBledy()) {
@@ -74,9 +63,9 @@ public class WalidacjaITransformacja2 {
 			e.printStackTrace();
 		} catch (TransformerConfigurationException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
 	}

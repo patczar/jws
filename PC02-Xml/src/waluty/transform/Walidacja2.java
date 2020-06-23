@@ -1,4 +1,4 @@
-package dodatkowe_xml.przeksztalcenia;
+package waluty.transform;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,38 +15,44 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class Walidacja1 {
+public class Walidacja2 {
 
 	public static void main(String[] args) {
 		System.out.println("Przygotowania...");
 		String xml = "zepsuty.xml";
 		File xsd = new File("waluty.xsd");
 		
-		InputSource src = new InputSource(xml);
+		StreamSource src = new StreamSource(xml);
 		StreamSource xsdSource = new StreamSource(xsd);
 		
-		// Walidacja podczas parsowania
+		// Walidacja za pomocą Validatora
 		
 		try {
 			SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema schema = sf.newSchema(xsdSource);
 			
-			SAXParserFactory spf = SAXParserFactory.newInstance();
-			spf.setSchema(schema);			
-			// w ten sposób podajemy schemę parserowi typu SAX, albo parserowi typu DOM (DocumentBuilder)
-			
-			SAXParser parser = spf.newSAXParser();
+			Validator validator = schema.newValidator();
 			
 			MojHandlerWalidacji handler = new MojHandlerWalidacji();
 			
-			parser.parse(src, handler);
+			// tutaj to nie musi byc DefaultHandler, wystarczy ErrorHandler
+			validator.setErrorHandler(handler);
 			
-			System.out.println("Sparsowane");
+			// gdybyśmy nie podali własnego ErrorHandlera, to użyty byłby domyślny, który przerywa walidację wyjątkiem przy pierwszym błędzie
+
+			// dokonujemy walidacji, a ErrorHandler jest powiadamiany o błędach
+			// można tutaj użyć dowolnego Source: StreamSource, DOMSource, JAXBSource, SAXSource
+			validator.validate(src);
+			
+			// istnieje też wersja
+			// validator.validate(src, result);
+			// która pozwala zapisać wynik walidacji - dokument, w którym zostały uzupełnione domyślne wartości atrybutów
 			
 			if(handler.czyBylyBledy()) {
 				System.out.println("Były błędy:");
@@ -55,7 +61,7 @@ public class Walidacja1 {
 				System.out.println("Nie było błędów");
 			}
 			
-		} catch (SAXException | ParserConfigurationException | IOException e) {
+		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
 		

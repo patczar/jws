@@ -1,4 +1,4 @@
-package dodatkowe_xml.przeksztalcenia;
+package waluty.transform;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

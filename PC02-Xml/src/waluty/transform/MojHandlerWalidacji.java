@@ -1,4 +1,4 @@
-package dodatkowe_xml.przeksztalcenia;
+package waluty.transform;
 
 import java.util.LinkedList;
 import java.util.List;
