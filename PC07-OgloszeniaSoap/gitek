@@ -1,0 +1,11 @@
+for d in src/*/*
+do touch "$d/.gitkeep"
+done
+
+echo /target/ >> .gitignore
+echo /.settings/ >> .gitignore
+echo /.project >> .gitignore
+echo /.classpath >> .gitignore
+
+git add src/
+git add .gitignore
