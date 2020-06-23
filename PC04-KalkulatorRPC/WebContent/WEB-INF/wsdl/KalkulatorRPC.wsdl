@@ -16,6 +16,7 @@
 		</xsd:schema>
 	</wsdl:types>
 
+	<!--  W stylu RPC message odwołują się do typów XML (xsd:int, tns:ListaIntow) -->
 	<wsdl:message name="zapytanie1Int">
 		<wsdl:part name="arg" type="xsd:int" />
 	</wsdl:message>
