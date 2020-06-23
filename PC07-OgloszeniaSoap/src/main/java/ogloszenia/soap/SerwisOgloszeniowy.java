@@ -7,8 +7,6 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
-import javax.xml.ws.RequestWrapper;
-import javax.xml.ws.ResponseWrapper;
 
 import ogloszenia.baza.DostepDoBazy;
 import ogloszenia.baza.OgloszeniaDAO;
@@ -46,4 +44,13 @@ public class SerwisOgloszeniowy {
 		}
 	}
 	
+	public void zapiszOgloszenie(
+			@WebParam(name="ogloszenie") Samochodowe ogloszenie) throws BladBazyDanych {
+		try(DostepDoBazy db = new DostepDoBazy()) {
+			OgloszeniaDAO dao = db.ogloszeniaDAO();
+			dao.zapisz(ogloszenie);
+		}
+	}
+	
 }
+
