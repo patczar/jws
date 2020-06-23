@@ -36,8 +36,6 @@ public class SerwisOgloszeniowy {
 	}
 	
 	@WebResult(name="ogloszenie")
-	@RequestWrapper(localName="owc", targetNamespace = "nowy_namespace")
-	@ResponseWrapper(localName="owcResponse", targetNamespace = "nowy_namespace")
 	public List<Samochodowe> odczytajOgloszeniaWedlugCeny(
 				@WebParam(name="min") BigDecimal min,
 				@WebParam(name="max") BigDecimal max
