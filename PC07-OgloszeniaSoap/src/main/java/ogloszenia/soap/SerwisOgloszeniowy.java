@@ -7,14 +7,17 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.xml.ws.soap.MTOM;
 
 import ogloszenia.baza.DostepDoBazy;
 import ogloszenia.baza.OgloszeniaDAO;
 import ogloszenia.exn.BladBazyDanych;
 import ogloszenia.exn.NieznanyRekord;
 import ogloszenia.model.Samochodowe;
+import ogloszenia.util.FotoUtil;
 
 @WebService
+//@MTOM
 public class SerwisOgloszeniowy {
 	@WebResult(name="ogloszenie")
 	public List<Samochodowe> odczytajWszystkieOgloszenia() throws BladBazyDanych {
@@ -50,6 +53,33 @@ public class SerwisOgloszeniowy {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
 			dao.zapisz(ogloszenie);
 		}
+	}
+	
+	// W tej wersji wersji serwer odsyła ID ogłoszenia - jeśli było utworzone jako nowe, to dzięki temu klient będzie znał ID.
+	public Integer zapiszOgloszenie2(
+			@WebParam(name="ogloszenie") Samochodowe ogloszenie) throws BladBazyDanych {
+		try(DostepDoBazy db = new DostepDoBazy()) {
+			OgloszeniaDAO dao = db.ogloszeniaDAO();
+			dao.zapisz(ogloszenie);
+			return ogloszenie.getIdOgloszenia();
+		}
+	}
+	
+	// W tej wersji serwer odsyła uzupełniony obiekt ogłoszenia.
+	// Dopisane mogą być id oraz data wystawienia.
+	public Samochodowe zapiszOgloszenie3(
+			@WebParam(name="ogloszenie") Samochodowe ogloszenie) throws BladBazyDanych {
+		try(DostepDoBazy db = new DostepDoBazy()) {
+			OgloszeniaDAO dao = db.ogloszeniaDAO();
+			dao.zapisz(ogloszenie);
+			return ogloszenie;
+		}
+	}
+	
+	public byte[] foto(@WebParam(name="id") int idOgloszenia) throws NieznanyRekord {
+		return FotoUtil.wczytajFoto(idOgloszenia);
+		// JAXB konwertuje tablicę bajtów do formatu base64
+		// Jeśli w tej klasie dodamy adnotację @MTOM, to zamiast tego dane binarne zostaną zapisane w załączniku
 	}
 	
 }
