@@ -1,6 +1,8 @@
 package ogloszenia.klient;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
@@ -12,24 +14,32 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.ws.Dispatch;
+import javax.xml.ws.Service;
 import javax.xml.ws.Service.Mode;
 
-import ogloszenia.wygenerowane.SerwisOgloszeniowyService;
-
-public class KlientDispatch1 {
+public class KlientDispatch3 {
+	
+	/* W tym przykładzie nie używamy wygenerowanych klas, lecz bezpośrednio klasy javax.xml.ws.Service.
+	 * To można zrobić "zawsze", nawet bez procedury wsimport */
 
 	private static final QName PORT_NAME = new QName("http://soap.ogloszenia/", "SerwisOgloszeniowyPort");
+	private static final QName SERVICE_NAME = new QName("http://soap.ogloszenia/", "SerwisOgloszeniowyService");
+	private static final String WSDL = "http://localhost:8080/PC07-OgloszeniaSoap-1.0/SerwisOgloszeniowy?wsdl";
 	
 	public static void main(String[] args) {
-		SerwisOgloszeniowyService serwis = new SerwisOgloszeniowyService();
-		
-		Dispatch<Source> dispatch = serwis.createDispatch(PORT_NAME, Source.class, Mode.PAYLOAD);
+		try {
+			final URL WSDL_URL = new URL(WSDL);
+			Service serwis = Service.create(WSDL_URL, SERVICE_NAME);
+			
+			Dispatch<Source> dispatch = serwis.createDispatch(PORT_NAME, Source.class, Mode.PAYLOAD);
 
-		StreamSource src = new StreamSource(new File("zapytanie1.xml"));
-		Source result = dispatch.invoke(src);
-		System.out.println("Klasa wynikowego sourca to: " + result.getClass());
-		wypiszXmlZSource(result);
-		System.out.println("\n\nGotowe");
+			StreamSource src = new StreamSource(new File("zapytanie1.xml"));
+			Source result = dispatch.invoke(src);
+			wypiszXmlZSource(result);
+			System.out.println("\n\nGotowe");
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	static void wypiszXmlZSource(Source xml) {
