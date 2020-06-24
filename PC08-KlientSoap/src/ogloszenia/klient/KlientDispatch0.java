@@ -35,11 +35,14 @@ public class KlientDispatch0 {
 	}
 
 	public static void main(String[] args) {
+		System.out.println("Startujemy");
 		QName portName = new QName("http://soap.ogloszenia/", "SerwisOgloszeniowyPort");
 		
 		SerwisOgloszeniowyService serwis = new SerwisOgloszeniowyService();
 		
 		Dispatch<Source> dispatch = serwis.createDispatch(portName, Source.class, Service.Mode.PAYLOAD);
+
+		System.out.println("Wysyłam zapytanie");
 		
 		String trescZapytania = "<ns:odczytajJednoOgloszenie xmlns:ns='http://soap.ogloszenia/'>" + 
 				"<id>1</id>" + 
@@ -47,6 +50,7 @@ public class KlientDispatch0 {
 		
 		Source src = new StreamSource(new StringReader(trescZapytania));
 		Source wynik = dispatch.invoke(src);		
+		System.out.println("Przyszła odpowiedź");
 		wypiszXmlZSource(wynik);
 		System.out.println("\n\nGotowe");
 	}
