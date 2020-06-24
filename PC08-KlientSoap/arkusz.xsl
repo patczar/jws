@@ -26,12 +26,12 @@
 			<p>Rocznik: <b><xsl:value-of select="rocznik"/></b></p>
 			<p><b><xsl:value-of select="cena"/></b></p>
 			<p class="tytul"><xsl:apply-templates select="opis"/></p>
-			<xsl:apply-templates select="silnik" />
+			<xsl:call-template name="silnik" />
 			<xsl:apply-templates select="sprzedawca" />			
 		</div>
 	</xsl:template>
 
-	<xsl:template match="silnik">
+	<xsl:template name="silnik">
 		<div>
 			Silnik: <b><xsl:value-of select="pojemnosc"/></b>
 			<xsl:text> </xsl:text>
