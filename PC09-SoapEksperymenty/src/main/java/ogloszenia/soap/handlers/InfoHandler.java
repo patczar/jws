@@ -3,6 +3,7 @@ package ogloszenia.soap.handlers;
 import java.time.LocalTime;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPHeader;
@@ -23,6 +24,9 @@ public class InfoHandler implements SOAPHandler<SOAPMessageContext> {
 
 		QName operacja = (QName)context.get(SOAPMessageContext.WSDL_OPERATION);
 		System.out.println("operacja: " + operacja);
+		
+        HttpServletRequest req = (HttpServletRequest) context.get(SOAPMessageContext.SERVLET_REQUEST);
+        System.out.println("  adres klienta: " + req.getLocalAddr());
 		
 		// dopisanie nagłówka czas:
 		if(wychodzaca) {

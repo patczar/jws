@@ -18,6 +18,13 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+/*
+Ten handler  wymaga wysyłąnia w zapytaniu nagłówka takiego jak
+   	<soap:credentials user="ala" password="abc123"/>
+wewnątrz <soapenv:Header>
+ */
+
+
 public class PasswordHandler implements SOAPHandler<SOAPMessageContext> {
 	private static final String NS = "http://soap.ogloszenia/";
 	private static final String HEADER_NAME = "credentials";

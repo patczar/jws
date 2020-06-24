@@ -19,7 +19,7 @@ import ogloszenia.util.FotoUtil;
 
 @WebService
 //@MTOM
-@HandlerChain(file = "handlers1.xml")
+@HandlerChain(file = "handlers2.xml")
 public class SerwisOgloszeniowy {
 	@WebResult(name="ogloszenie")
 	public List<Samochodowe> odczytajWszystkieOgloszenia() throws BladBazyDanych {
