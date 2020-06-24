@@ -22,15 +22,17 @@ public class InfoHandler implements SOAPHandler<SOAPMessageContext> {
 		SOAPMessage message = context.getMessage();
 
 		QName operacja = (QName)context.get(SOAPMessageContext.WSDL_OPERATION);
-		System.out.println("operacja: " + operacja.getLocalPart());
+		System.out.println("operacja: " + operacja);
 		
 		// dopisanie nagłówka czas:
 		if(wychodzaca) {
 			try {
 				SOAPHeader soapHeader = message.getSOAPHeader();
-				SOAPHeaderElement nowyNaglowek = soapHeader.
+				if(soapHeader != null) {
+					SOAPHeaderElement nowyNaglowek = soapHeader.
 						addHeaderElement(new QName("http://nasze_szkolenie.com/naglowki", "czas"));
-				nowyNaglowek.setTextContent(LocalTime.now().toString());
+					nowyNaglowek.setTextContent(LocalTime.now().toString());
+				}
 			} catch (SOAPException e) {
 				e.printStackTrace();
 			}
