@@ -3,6 +3,7 @@ package ogloszenia.soap;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -18,6 +19,7 @@ import ogloszenia.util.FotoUtil;
 
 @WebService
 //@MTOM
+@HandlerChain(file = "handlers1.xml")
 public class SerwisOgloszeniowy {
 	@WebResult(name="ogloszenie")
 	public List<Samochodowe> odczytajWszystkieOgloszenia() throws BladBazyDanych {
