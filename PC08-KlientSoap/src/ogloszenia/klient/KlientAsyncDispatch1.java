@@ -25,6 +25,7 @@ public class KlientAsyncDispatch1 {
 	private static final QName PORT_NAME = new QName("http://soap.ogloszenia/", "SerwisOgloszeniowyPort");
 	
 	public static void main(String[] args) {
+		System.out.println("Startujemy...");
 		SerwisOgloszeniowyService serwis = new SerwisOgloszeniowyService();
 		Dispatch<Source> dispatch = serwis.createDispatch(PORT_NAME, Source.class, Mode.PAYLOAD);
 
@@ -33,7 +34,7 @@ public class KlientAsyncDispatch1 {
 		Response<Source> response = dispatch.invokeAsync(src);
 		System.out.println("Zleciłem zapytanie");
 		try {
-			for(int i = 1; i <= 5; i++) {
+			for(int i = 1; i <= 100; i++) {
 				if(response.isDone()) {
 					System.out.println("Już gotowe!");
 					break;

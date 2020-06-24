@@ -45,7 +45,7 @@ public class KlientAsyncDispatch2 {
 		try {
 			Future<?> response = dispatch.invokeAsync(src, callback);
 			System.out.println("Zleciłem zapytanie");
-			for(int i = 1; i <= 5; i++) {
+			for(int i = 1; i <= 100; i++) {
 				if(response.isDone()) {
 					System.out.println("Już gotowe!");
 					break;
