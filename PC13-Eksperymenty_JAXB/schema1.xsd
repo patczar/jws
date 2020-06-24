@@ -3,6 +3,20 @@
 
   <xs:element name="ogloszenie" type="ogloszenieSamochodowe"/>
 
+  <xs:complexType name="adres">
+    <xs:sequence>
+      <xs:element name="ulica" type="xs:string" minOccurs="0"/>
+      <xs:element name="kod-pocztowy" type="xs:string" minOccurs="0"/>
+      <xs:element name="miasto" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="listaOgloszen">
+    <xs:sequence>
+      <xs:element name="ogloszenia" type="ogloszenieSamochodowe" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ogloszenieSamochodowe">
     <xs:complexContent>
       <xs:extension base="ogloszenie">
@@ -47,14 +61,6 @@
       <xs:element name="email" type="xs:string" minOccurs="0"/>
     </xs:sequence>
     <xs:attribute name="id" type="xs:int"/>
-  </xs:complexType>
-
-  <xs:complexType name="adres">
-    <xs:sequence>
-      <xs:element name="ulica" type="xs:string" minOccurs="0"/>
-      <xs:element name="kod-pocztowy" type="xs:string" minOccurs="0"/>
-      <xs:element name="miasto" type="xs:string" minOccurs="0"/>
-    </xs:sequence>
   </xs:complexType>
 
   <xs:simpleType name="paliwo">

@@ -9,8 +9,8 @@ jaxb:version="2.0">
   	<xs:annotation>
   		<xs:appinfo>
   			<jaxb:class name="OgloszenieMotoryzacyjne">                                                             
-            <jaxb:javadoc>To jest dokuemntacja ogłoszeń.</jaxb:javadoc>           
-        </jaxb:class> 
+            	<jaxb:javadoc>To jest dokuemntacja ogłoszeń.</jaxb:javadoc>           
+        	</jaxb:class> 
   		</xs:appinfo>
   	</xs:annotation>
   
