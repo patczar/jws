@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.jws.HandlerChain;
+import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -56,12 +57,19 @@ public class SerwisOgloszeniowy {
 		}
 	}
 	
+	@Oneway
 	public void zapiszOgloszenie(
 			@WebParam(name="ogloszenie") Samochodowe ogloszenie) throws BladBazyDanych {
+		System.out.println("zapiszOgloszenie - metoda startuje");
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+		}
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
 			dao.zapisz(ogloszenie);
 		}
+		System.out.println("zapiszOgloszenie - koniec");
 	}
 	
 	// W tej wersji wersji serwer odsyła ID ogłoszenia - jeśli było utworzone jako nowe, to dzięki temu klient będzie znał ID.
