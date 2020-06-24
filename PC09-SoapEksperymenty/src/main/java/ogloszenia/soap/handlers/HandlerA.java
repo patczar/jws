@@ -1,4 +1,4 @@
-package ogloszenia.soap;
+package ogloszenia.soap.handlers;
 
 import javax.xml.ws.handler.LogicalHandler;
 import javax.xml.ws.handler.LogicalMessageContext;

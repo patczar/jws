@@ -4,7 +4,15 @@
 	<handler-chain>
 		<handler>
 			<handler-name>A</handler-name>
-			<handler-class>ogloszenia.soap.HandlerA</handler-class>
+			<handler-class>ogloszenia.soap.handlers.HandlerA</handler-class>
+		</handler>
+		<handler>
+			<handler-name>B</handler-name>
+			<handler-class>ogloszenia.soap.handlers.HandlerB</handler-class>
+		</handler>
+		<handler>
+			<handler-name>C</handler-name>
+			<handler-class>ogloszenia.soap.handlers.HandlerC</handler-class>
 		</handler>
 	</handler-chain>
 </handler-chains>

@@ -32,6 +32,7 @@ public class SerwisOgloszeniowy {
 	@WebResult(name="ogloszenie")
 	@WebMethod(operationName="odczytajJednoOgloszenie", action="http://ogloszenia.com/jedno")
 	public Samochodowe odczytajOgloszenieWgId(@WebParam(name="id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
+		System.out.println("odczytajOgloszenieWgId - metoda startuje");
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
@@ -39,6 +40,7 @@ public class SerwisOgloszeniowy {
 		
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
+			System.out.println("odczytajOgloszenieWgId - odsyłam odpowiedź");
 			return dao.odczytajWgId(idOgloszenia);
 		}
 	}
