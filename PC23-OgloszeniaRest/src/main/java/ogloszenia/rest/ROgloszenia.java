@@ -3,7 +3,9 @@ package ogloszenia.rest;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -56,6 +58,50 @@ public class ROgloszenia {
 		}
 	}
 	
+	@Path("/{id}/cena")
+	@PUT
+	// na jedyny parametr pozbawiony adnotacji zostanie wpisana treść (body / entity) przysłana w zapytaniu od klienta
+	public void setCena(@PathParam("id") int idOgloszenia,
+			BigDecimal nowaCena) throws BladBazyDanych, NieznanyRekord {
+		try(DostepDoBazy db = new DostepDoBazy()) {
+			OgloszeniaDAO dao = db.ogloszeniaDAO();
+			Samochodowe ogl = dao.odczytajWgId(idOgloszenia);
+			ogl.setCena(nowaCena);
+			dao.aktualizuj(ogl);
+		}
+	}
 	
+	@Path("/{id}/opis")
+	@GET
+	public String getOpis(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
+		try(DostepDoBazy db = new DostepDoBazy()) {
+			OgloszeniaDAO dao = db.ogloszeniaDAO();
+			Samochodowe ogl = dao.odczytajWgId(idOgloszenia);
+			return ogl.getOpis();
+		}
+	}
+	
+	@Path("/{id}/opis")
+	@PUT
+	public void setOpis(@PathParam("id") int idOgloszenia,
+			String nowyOpis) throws BladBazyDanych, NieznanyRekord {
+		try(DostepDoBazy db = new DostepDoBazy()) {
+			OgloszeniaDAO dao = db.ogloszeniaDAO();
+			Samochodowe ogl = dao.odczytajWgId(idOgloszenia);
+			ogl.setOpis(nowyOpis);
+			dao.aktualizuj(ogl);
+		}
+	}
+	
+	@Path("/{id}/opis")
+	@DELETE
+	public void delOpis(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
+		try(DostepDoBazy db = new DostepDoBazy()) {
+			OgloszeniaDAO dao = db.ogloszeniaDAO();
+			Samochodowe ogl = dao.odczytajWgId(idOgloszenia);
+			ogl.setOpis(null);
+			dao.aktualizuj(ogl);
+		}
+	}
 	
 }
