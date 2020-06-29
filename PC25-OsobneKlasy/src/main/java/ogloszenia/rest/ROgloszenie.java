@@ -17,10 +17,9 @@ import ogloszenia.exn.NieznanyRekord;
 import ogloszenia.model.Samochodowe;
 import ogloszenia.util.FotoUtil;
 
-@Path("/ogloszenia")
+@Path("/ogloszenia/{id}")
 public class ROgloszenie {
 	@GET
-	@Path("/{id}")
 	@Produces({"application/xml", "application/json", "text/plain"})
 	public Samochodowe odczytajJedno(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
@@ -30,7 +29,6 @@ public class ROgloszenie {
 	}
 	
 	@GET
-	@Path("/{id}")
 	@Produces("text/html")
 	public String jednoOgloszenie(
 				@PathParam("id") int idOgloszenia
@@ -47,7 +45,7 @@ public class ROgloszenie {
 	}
 	
 	@GET
-	@Path("/{id}/cena")
+	@Path("/cena")
 	@Produces({"application/json", "text/plain"})
 	public BigDecimal getCena(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
@@ -57,7 +55,7 @@ public class ROgloszenie {
 	}
 	
 	@PUT
-	@Path("/{id}/cena")
+	@Path("/cena")
 	@Consumes({"application/json", "text/plain"})
 	public void setCena(@PathParam("id") int idOgloszenia,
 			BigDecimal nowaCena) throws BladBazyDanych, NieznanyRekord {
@@ -70,7 +68,7 @@ public class ROgloszenie {
 	}
 	
 	@GET
-	@Path("/{id}/opis")
+	@Path("/opis")
 	@Produces({"text/plain"})
 	public String getOpis(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
@@ -81,7 +79,7 @@ public class ROgloszenie {
 	}
 	
 	@PUT
-	@Path("/{id}/opis")
+	@Path("/opis")
 	@Consumes({"text/plain"})
 	public void setOpis(@PathParam("id") int idOgloszenia,
 			String nowyOpis) throws BladBazyDanych, NieznanyRekord {
@@ -94,7 +92,7 @@ public class ROgloszenie {
 	}
 	
 	@DELETE
-	@Path("/{id}/opis")
+	@Path("/opis")
 	public void delOpis(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
@@ -105,7 +103,7 @@ public class ROgloszenie {
 	}
 
 	@GET
-	@Path("/{id}/foto")
+	@Path("/foto")
 	@Produces("image/jpeg")
 	public byte[] czytajFoto(@PathParam("id") int idOgloszenia) throws NieznanyRekord {
 		return FotoUtil.wczytajFoto(idOgloszenia);

@@ -11,11 +11,10 @@ import ogloszenia.exn.BladBazyDanych;
 import ogloszenia.exn.NieznanyRekord;
 import ogloszenia.model.Sprzedawca;
 
-@Path("/sprzedawcy")
+@Path("/sprzedawcy/{id}")
 @Produces({"application/xml", "application/json", "text/plain"})
 public class RSprzedawca {
 	@GET
-	@Path("/{id}")
 	public Sprzedawca odczytajJednego(@PathParam("id") int idSprzedawcy) throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			SprzedawcyDAO dao = db.sprzedawcyDAO();
