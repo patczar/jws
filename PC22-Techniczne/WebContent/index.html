@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Projekt serwletowo - RESTowy</title>
+</head>
+<body>
+<h2>REST</h2>
+<ul>
+<li><a href="rest1/kontekst">Kontekt</a> - informacje wstrzykiwane z kontekstu</li>
+<li><a href="rest1/sesja">Sesja</a> - działanie sesji HTTP na przykładzie licznika</li>
+<li><b>Parametry</b>
+	<ul>
+	<li><a href="rest1/parametry/query?a=Ala&b=Ola&b=Ela&t=Basia&t=Kasia&t=Zosia">QueryParam</a></li>
+	<li><a href="rest1/parametry/matrix;a=Ala;b=Ola;b=Ela;t=Basia;t=Kasia;t=Zosia">MatrixParam</a></li>
+	<li><a href="rest1/parametry/path/Ala/Basia/12345ZaraZ@bo5">PathParam</a></li>
+	<li><a href="rest1/parametry/headers">HeaderParam</a> - nagłówki HTTP</li>
+	<li><a href="rest1/parametry/cookies">CookieParam</a> - odczyt cookies</li>
+	<li><a href="rest1/parametry/ustaw">ustaw</a> - ustaw <code>ciacho</code> na bieżący czas</li>
+	</ul>
+</li>
+</ul>
+<h3>Porównanie zakresów aplikacji</h3>
+<table>
+<tr><th>rest1</th><td><a href="rest1/a">A</a></td><td><a href="rest1/b">B</a></td><td><a href="rest1/c">C</a></td><td><a href="rest1/licznik">licznik</a> (domyślnie)</td></tr>
+<tr><th>rest2</th><td><a href="rest2/a">A</a></td><td><a href="rest2/b">B</a></td><td><a href="rest2/c">C</a></td><td><a href="rest2/licznik">licznik</a> (getClasses)</td></tr>
+<tr><th>rest3</th><td><a href="rest3/a">A</a></td><td><a href="rest3/b">B</a></td><td><a href="rest3/c">C</a></td><td><a href="rest3/licznik">licznik</a> (getSingletons)</td></tr>
+</table>
+
+<h2>Serwlety</h2>
+<ul>
+<li><a href="Hello">serwlet Hello</a></li>
+<li><a href="przyklad1.jsp">przyklad1.jsp</a></li>
+<li><a href="przyklad2.jsp">przyklad2.jsp</a></li>
+<hr/>
+<li><a href="Kalkulator1">Kalkulator</a> - wersja serwlet 1 (jedna metoda)</li>
+<li><a href="Kalkulator2">Kalkulator</a> - wersja serwlet 2 (osobno GET i POST)</li>
+<li><a href="kalkulator.jsp">Kalkulator</a> - wersja JSP z beanem</li>
+<hr/>
+<li><a href="Info">Info</a> - serwlet prezentujący zawartość Request, nagłówki, ciasteczka itp.</li>
+<li><a href="zakresy">Zakresy</a> - zakresy zmiennych w serwlecie</li>
+<li><a href="zakresy_filtr">Zakresy</a> - wersja z filtrem</li>
+<li><a href="zakresy.jsp">zakresy.jsp</a> - zakresy zmiennych w JSP</li>
+<li><a href="zakresy_filtr.jsp">zakresy.jsp</a> - wersja z filtrem</li>
+</ul>
+
+</body>
+</html>

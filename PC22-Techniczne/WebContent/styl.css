@@ -1,0 +1,32 @@
+div.wynik {
+	color: green;
+	font-weight: bold;
+}
+
+p {
+	color: blue;
+	font-style: italic;
+}
+
+.wazne {
+	color: red;
+	font-weight: bold;
+}
+
+#najwazniejszy {
+	font-size: 40px;
+}
+
+.error {
+	color: red;
+	font-weight: bold;
+}
+
+#odpowiedz {
+	width: 500px;
+	border: 4px blue outset;
+	margin: 20px auto;
+	padding: 20px;
+	background-color: #FFEECC;
+}
+
