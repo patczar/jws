@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ogloszenia.exn.BladBazyDanych;
+import ogloszenia.exn.NieznanyRekord;
 import ogloszenia.model.Sprzedawca;
 
 public class SprzedawcyDAO extends AbstractDAO {
@@ -45,7 +46,7 @@ public class SprzedawcyDAO extends AbstractDAO {
 		return lista;
 	}
 
-	public Sprzedawca odczytajWgId(int idSprzedawcy) throws BladBazyDanych {
+	public Sprzedawca odczytajWgId(int idSprzedawcy) throws BladBazyDanych, NieznanyRekord {
 		final String sql = "SELECT * FROM sprzedawcy WHERE id_sprzedawcy = ?";
 		
 		try(PreparedStatement stmt = c().prepareStatement(sql)) {
@@ -54,7 +55,7 @@ public class SprzedawcyDAO extends AbstractDAO {
 				if(rs.next()) {
 					return sprzedawcaZResultSet(rs);
 				} else {
-					return null;
+					throw new NieznanyRekord("Nieznany sprzedawca o id " + idSprzedawcy);
 				}
 			}
 		} catch (SQLException e) {

@@ -279,8 +279,11 @@ public class OgloszeniaDAO extends AbstractDAO {
 	
 	private void uzupelnijDaneSprzedawcy(Ogloszenie ogloszenie) throws BladBazyDanych {
 		SprzedawcyDAO sdao = baza.sprzedawcyDAO();
-		Sprzedawca sprzedawca = sdao.odczytajWgId(ogloszenie.getIdSprzedawcy());
-		ogloszenie.setSprzedawca(sprzedawca);
+		try {
+			Sprzedawca sprzedawca = sdao.odczytajWgId(ogloszenie.getIdSprzedawcy());
+			ogloszenie.setSprzedawca(sprzedawca);
+		} catch (NieznanyRekord e) {
+		}
 	}
 
 	public boolean usun(int idOgloszenia) throws BladBazyDanych {
