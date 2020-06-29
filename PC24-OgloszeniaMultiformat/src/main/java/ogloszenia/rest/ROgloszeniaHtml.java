@@ -59,5 +59,5 @@ public class ROgloszeniaHtml {
 	@Produces("image/jpeg")
 	public byte[] czytajFoto(@PathParam("id") int idOgloszenia) throws NieznanyRekord {
 		return FotoUtil.wczytajFoto(idOgloszenia);
-	}	
+	}
 }
