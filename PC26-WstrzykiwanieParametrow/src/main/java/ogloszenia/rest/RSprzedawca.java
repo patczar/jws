@@ -14,8 +14,11 @@ import ogloszenia.model.Sprzedawca;
 @Path("/sprzedawcy/{id}")
 @Produces({"application/xml", "application/json", "text/plain"})
 public class RSprzedawca {
+	@PathParam("id")
+	private int idSprzedawcy;
+	
 	@GET
-	public Sprzedawca odczytajJednego(@PathParam("id") int idSprzedawcy) throws BladBazyDanych, NieznanyRekord {
+	public Sprzedawca odczytajJednego() throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			SprzedawcyDAO dao = db.sprzedawcyDAO();
 			return dao.odczytajWgId(idSprzedawcy);

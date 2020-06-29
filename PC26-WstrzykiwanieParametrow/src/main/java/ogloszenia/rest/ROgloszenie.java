@@ -19,9 +19,16 @@ import ogloszenia.util.FotoUtil;
 
 @Path("/ogloszenia/{id}")
 public class ROgloszenie {
+	// Domyślnie klasy zasobów (czyli te oznaczone @Path) działają w trybie "per-request",
+	// tzn. dla każdego zapytania jest tworzony osobny obiekt.
+	// Dzięki temu parametry zapytania można wstrzykiwać na zmienne instancyjne:
+	
+	@PathParam("id")
+	private int idOgloszenia;
+	
 	@GET
 	@Produces({"application/xml", "application/json", "text/plain"})
-	public Samochodowe odczytajJedno(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
+	public Samochodowe odczytajJedno() throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
 			return dao.odczytajWgId(idOgloszenia);
@@ -30,9 +37,7 @@ public class ROgloszenie {
 	
 	@GET
 	@Produces("text/html")
-	public String jednoOgloszenie(
-				@PathParam("id") int idOgloszenia
-			) throws BladBazyDanych, NieznanyRekord {
+	public String jednoOgloszenie() throws BladBazyDanych, NieznanyRekord {
 		try (DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
 			Samochodowe ogloszenie = dao.odczytajWgId(idOgloszenia);
@@ -47,7 +52,7 @@ public class ROgloszenie {
 	@GET
 	@Path("/cena")
 	@Produces({"application/json", "text/plain"})
-	public BigDecimal getCena(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
+	public BigDecimal getCena() throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
 			return dao.odczytajWgId(idOgloszenia).getCena();
@@ -57,8 +62,7 @@ public class ROgloszenie {
 	@PUT
 	@Path("/cena")
 	@Consumes({"application/json", "text/plain"})
-	public void setCena(@PathParam("id") int idOgloszenia,
-			BigDecimal nowaCena) throws BladBazyDanych, NieznanyRekord {
+	public void setCena(BigDecimal nowaCena) throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
 			Samochodowe ogl = dao.odczytajWgId(idOgloszenia);
@@ -70,7 +74,7 @@ public class ROgloszenie {
 	@GET
 	@Path("/opis")
 	@Produces({"text/plain"})
-	public String getOpis(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
+	public String getOpis() throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
 			Samochodowe ogl = dao.odczytajWgId(idOgloszenia);
@@ -81,8 +85,7 @@ public class ROgloszenie {
 	@PUT
 	@Path("/opis")
 	@Consumes({"text/plain"})
-	public void setOpis(@PathParam("id") int idOgloszenia,
-			String nowyOpis) throws BladBazyDanych, NieznanyRekord {
+	public void setOpis(String nowyOpis) throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
 			Samochodowe ogl = dao.odczytajWgId(idOgloszenia);
@@ -93,7 +96,7 @@ public class ROgloszenie {
 	
 	@DELETE
 	@Path("/opis")
-	public void delOpis(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
+	public void delOpis() throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
 			Samochodowe ogl = dao.odczytajWgId(idOgloszenia);
@@ -105,7 +108,7 @@ public class ROgloszenie {
 	@GET
 	@Path("/foto")
 	@Produces("image/jpeg")
-	public byte[] czytajFoto(@PathParam("id") int idOgloszenia) throws NieznanyRekord {
+	public byte[] czytajFoto() throws NieznanyRekord {
 		return FotoUtil.wczytajFoto(idOgloszenia);
 	}
 }
