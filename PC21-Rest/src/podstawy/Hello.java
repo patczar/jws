@@ -7,6 +7,12 @@ import javax.ws.rs.QueryParam;
 
 // Nazwa technologii Java: JAX-RS, część Javy EE
 
+// Alternatywnie podobne rzeczy da się robić za pomocą Spring
+// Adnotacje wywodzące się z Spring MVC, zaadaptowane do Srping REST
+// @RequestMapping(method=GET)
+// @GetMapping("/adres")
+// @PostMapping
+
 @Path("/hello")
 public class Hello {
 
