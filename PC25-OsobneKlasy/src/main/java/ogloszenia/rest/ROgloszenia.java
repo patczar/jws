@@ -18,7 +18,6 @@ import ogloszenia.baza.OgloszeniaDAO;
 import ogloszenia.exn.BladBazyDanych;
 import ogloszenia.exn.NieznanyRekord;
 import ogloszenia.model.Samochodowe;
-import ogloszenia.model.Sprzedawca;
 import ogloszenia.util.FotoUtil;
 
 @Path("/ogloszenia")
@@ -37,7 +36,7 @@ public class ROgloszenia {
 	
 	@GET
 	@Produces("text/html")
-	public String odczytajWszystkieLubWedlugCeny(
+	public String odczytajWszystkieHtml(
 			@QueryParam("min") BigDecimal min,
 			@QueryParam("max") BigDecimal max) throws BladBazyDanych {
 
@@ -92,16 +91,6 @@ public class ROgloszenia {
             wynik.append(ogloszenie.dajHtml());
             wynik.append("</body></html>");
             return wynik.toString();
-		}
-	}
-	
-	@Path("/{id}/sprzedawca")
-	@Produces({"application/xml", "application/json", "text/plain"})
-	@GET
-	public Sprzedawca getSprzedawca(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
-		try(DostepDoBazy db = new DostepDoBazy()) {
-			OgloszeniaDAO dao = db.ogloszeniaDAO();
-			return dao.odczytajWgId(idOgloszenia).getSprzedawca();
 		}
 	}
 	
