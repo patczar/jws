@@ -13,4 +13,10 @@ public class Hello {
 		return "Hello world";
 	}
 	
+	@GET
+	@Path("/czesc")
+	public String czesc() {
+		return "Witaj człowieku";
+	}
+	
 }
