@@ -29,7 +29,7 @@ public class RunXSLT implements Provider<Source> {
 			StreamSource xslt = new StreamSource(servletContext.getResourceAsStream("kalkulator.xsl"));
 
 			// inne opcje, bez korzystania z WebServiceContext i ServletContext:
-			// StreamSource xslt = new StreamSource("kalkulator.xsl");
+			// StreamSource xslt = new StreamSource("C:/katalog/aplikacja/kalkulator.xsl");
 			// StreamSource xslt = new StreamSource("http://localhost:8080/PC10-Provider-1.0/kalkulator.xsl");
 			
 			TransformerFactory tf = TransformerFactory.newInstance();
