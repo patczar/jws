@@ -1,9 +1,16 @@
 package ogloszenia.model;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Sprzedawca {
+	@XmlAttribute(name="id")
 	private int id_sprzedawcy;
 	private String nazwa;
 	private String ulica;
+	@XmlElement(name="kod-pocztowy")
 	private String kod_pocztowy;
 	private String miasto;
 	private String email;

@@ -20,8 +20,8 @@ import ogloszenia.model.Samochodowe;
 import ogloszenia.model.Sprzedawca;
 
 @Path("/ogloszenia")
-@Produces("application/json")
-@Consumes("application/json")
+@Produces("application/xml")
+@Consumes("application/xml")
 public class ROgloszenia {
 
 	@GET
