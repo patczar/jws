@@ -11,6 +11,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import ogloszenia.baza.DostepDoBazy;
 import ogloszenia.baza.OgloszeniaDAO;
@@ -25,10 +26,32 @@ public class ROgloszenia {
 
 	@Produces({"application/xml", "application/json", "text/plain"})
 	@GET
-	public List<Samochodowe> odczytajWszystkie() throws BladBazyDanych {
+	public List<Samochodowe> odczytajWszystkie(
+			@QueryParam("min") BigDecimal min,
+			@QueryParam("max") BigDecimal max) throws BladBazyDanych {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
-			return dao.odczytajWszystkie();
+			return dao.odczytajWedlugCeny(min, max);
+		}
+	}
+	
+	@GET
+	@Produces("text/html")
+	public String odczytajWszystkieLubWedlugCeny(
+			@QueryParam("min") BigDecimal min,
+			@QueryParam("max") BigDecimal max) throws BladBazyDanych {
+
+		try (DostepDoBazy db = new DostepDoBazy()) {
+			OgloszeniaDAO dao = db.ogloszeniaDAO();
+			List<Samochodowe> ogloszenia = dao.odczytajWedlugCeny(min, max);
+
+			StringBuilder wynik = new StringBuilder();
+			wynik.append("<html><body>");
+			for (Samochodowe ogl : ogloszenia) {
+				wynik.append(ogl.dajHtml());
+			}
+			wynik.append("</body></html>");
+			return wynik.toString();
 		}
 	}
 
@@ -46,15 +69,36 @@ public class ROgloszenia {
 		}
 	}
 
-	
-	// http://localhost:8080/PC23-OgloszeniaRest-1.0/ogloszenia/3
+
+	// Jedna metoda może zwraca obiekt w różnych formatach (wymienionych w @Produces).
+	// To serwer automatycznie zapisze obiekt w danym formacie w zależności od preferencji klienta (nagłówek Accept).
+	@GET
 	@Path("/{id}")
 	@Produces({"application/xml", "application/json", "text/plain"})
-	@GET
 	public Samochodowe odczytajJedno(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
 			return dao.odczytajWgId(idOgloszenia);
+		}
+	}
+	
+	// Można też zdefiniować osobną metodę, która zwraca ten sam zasób (określony URL-em)
+	// w innym formacie - jeśli wymaga to innej implementacji.
+	// W zależności od wyboru klienta (Accept) zostanie wywołania odpowiednia metoda.
+	@GET
+	@Path("/{id}")
+	@Produces("text/html")
+	public String jednoOgloszenie(
+				@PathParam("id") int idOgloszenia
+			) throws BladBazyDanych, NieznanyRekord {
+		try (DostepDoBazy db = new DostepDoBazy()) {
+			OgloszeniaDAO dao = db.ogloszeniaDAO();
+			Samochodowe ogloszenie = dao.odczytajWgId(idOgloszenia);
+			StringBuilder wynik = new StringBuilder();
+            wynik.append("<html><body>");
+            wynik.append(ogloszenie.dajHtml());
+            wynik.append("</body></html>");
+            return wynik.toString();
 		}
 	}
 	
