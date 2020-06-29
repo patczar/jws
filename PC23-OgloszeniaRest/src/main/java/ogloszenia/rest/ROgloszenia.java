@@ -5,10 +5,12 @@ import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import ogloszenia.baza.DostepDoBazy;
 import ogloszenia.baza.OgloszeniaDAO;
 import ogloszenia.exn.BladBazyDanych;
+import ogloszenia.exn.NieznanyRekord;
 import ogloszenia.model.Samochodowe;
 
 @Path("/ogloszenia")
@@ -23,5 +25,15 @@ public class ROgloszenia {
 		}
 	}
 	
+	// http://localhost:8080/PC23-OgloszeniaRest-1.0/ogloszenia/jedno?id=3
+	@Path("/jedno")
+	@GET
+	@Produces("application/json")
+	public Samochodowe odczytajJedno(@QueryParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
+		try(DostepDoBazy db = new DostepDoBazy()) {
+			OgloszeniaDAO dao = db.ogloszeniaDAO();
+			return dao.odczytajWgId(idOgloszenia);
+		}
+	}
 
 }

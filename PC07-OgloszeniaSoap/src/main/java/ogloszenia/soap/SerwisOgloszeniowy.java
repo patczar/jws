@@ -31,8 +31,12 @@ public class SerwisOgloszeniowy {
 	@WebMethod(operationName="odczytajJednoOgloszenie", action="http://ogloszenia.com/jedno")
 	public Samochodowe odczytajOgloszenieWgId(@WebParam(name="id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {
+		}
+		
+		if(idOgloszenia == 13) {
+			throw new RuntimeException("Pechowa trzynastka");
 		}
 		
 		try(DostepDoBazy db = new DostepDoBazy()) {
