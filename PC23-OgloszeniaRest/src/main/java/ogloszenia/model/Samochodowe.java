@@ -3,9 +3,6 @@ package ogloszenia.model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-//@XmlRootElement
 public class Samochodowe extends Ogloszenie {
 	private String marka;
 	private String model;

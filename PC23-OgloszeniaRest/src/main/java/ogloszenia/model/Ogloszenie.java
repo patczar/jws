@@ -3,16 +3,9 @@ package ogloszenia.model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 public class Ogloszenie {
-	@XmlAttribute(name="id")
 	private Integer idOgloszenia;
-	@XmlAttribute(name="id-sprzedawcy")
 	private Integer idSprzedawcy;
-	
-	@XmlJavaTypeAdapter(DateTimeAdapter.class)
 	private LocalDateTime wystawione;
 	
 	private BigDecimal cena;
