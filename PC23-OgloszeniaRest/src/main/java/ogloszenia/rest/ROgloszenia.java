@@ -3,13 +3,14 @@ package ogloszenia.rest;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 
 import ogloszenia.baza.DostepDoBazy;
 import ogloszenia.baza.OgloszeniaDAO;
@@ -20,6 +21,7 @@ import ogloszenia.model.Sprzedawca;
 
 @Path("/ogloszenia")
 @Produces("application/json")
+@Consumes("application/json")
 public class ROgloszenia {
 
 	@GET
@@ -101,6 +103,18 @@ public class ROgloszenia {
 			Samochodowe ogl = dao.odczytajWgId(idOgloszenia);
 			ogl.setOpis(null);
 			dao.aktualizuj(ogl);
+		}
+	}
+	
+	// w usługach typu REST bardzo często POST służy do dodawania nowych rekordów,
+	// dla których nie jest z góry znane ID (i co za tym idzie docelowy adres)
+	@POST
+	public Samochodowe zapiszOgloszenie(Samochodowe ogloszenie) throws BladBazyDanych {
+		try(DostepDoBazy db = new DostepDoBazy()) {
+			OgloszeniaDAO dao = db.ogloszeniaDAO();
+			dao.zapisz(ogloszenie);
+			// zwracam uzupełniony obiekt - dzięki temu klient dowie się jakie jest jego id
+			return ogloszenie;
 		}
 	}
 	
