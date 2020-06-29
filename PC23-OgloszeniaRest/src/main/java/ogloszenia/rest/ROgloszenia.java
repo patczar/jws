@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
@@ -25,11 +26,11 @@ public class ROgloszenia {
 		}
 	}
 	
-	// http://localhost:8080/PC23-OgloszeniaRest-1.0/ogloszenia/jedno?id=3
-	@Path("/jedno")
+	// http://localhost:8080/PC23-OgloszeniaRest-1.0/ogloszenia/3
+	@Path("/{id}")
 	@GET
 	@Produces("application/json")
-	public Samochodowe odczytajJedno(@QueryParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
+	public Samochodowe odczytajJedno(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
 			return dao.odczytajWgId(idOgloszenia);
