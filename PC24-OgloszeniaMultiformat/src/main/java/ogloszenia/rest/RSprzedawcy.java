@@ -8,15 +8,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import ogloszenia.baza.DostepDoBazy;
-import ogloszenia.baza.OgloszeniaDAO;
 import ogloszenia.baza.SprzedawcyDAO;
 import ogloszenia.exn.BladBazyDanych;
 import ogloszenia.exn.NieznanyRekord;
-import ogloszenia.model.Samochodowe;
 import ogloszenia.model.Sprzedawca;
 
 @Path("/sprzedawcy")
-@Produces("application/json")
+@Produces({"application/xml", "application/json", "text/plain"})
 public class RSprzedawcy {
 
 	@GET
