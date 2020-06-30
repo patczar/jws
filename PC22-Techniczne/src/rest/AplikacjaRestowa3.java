@@ -30,7 +30,7 @@ public class AplikacjaRestowa3 extends Application {
 		
 		// te klasy działają w trybie singleton - ten sam obiekt obsługuje różne zapytania
 		HashSet<Object> zbior = new HashSet<>();
-		zbior.add(new C());
+		zbior.add(new B());
 		zbior.add(new Kontekst());
 		zbior.add(licznik);
 		zbior.add(new EBean());

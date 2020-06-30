@@ -49,6 +49,7 @@ public class Parametry {
 				+ "\nTablica: " + Arrays.toString(t);
 	}
 	
+	// /rest1/parametry/path/Ala/123/98765qwerty+reszta
 	@GET
 	@Path("/path/{a}/{b}/{cyfry:\\d+}{litery:\\w+}{reszta}")
 	public String pathParam(

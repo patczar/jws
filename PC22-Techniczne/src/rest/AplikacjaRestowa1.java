@@ -4,7 +4,7 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 // przykładowy adres
-// http://localhost:8080/PC23-RestElementyTechniczne/rest1/a
+// http://localhost:8080/PC22-Techniczne/rest1/a
 
 @ApplicationPath("/rest1")
 public class AplikacjaRestowa1 extends Application {

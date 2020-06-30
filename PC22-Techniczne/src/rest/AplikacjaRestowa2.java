@@ -23,5 +23,8 @@ public class AplikacjaRestowa2 extends Application {
 		zbior.add(Kontekst.class);
 		zbior.add(EBean.class);
 		return zbior;
+		
+		// Od Javy 9:
+		// return Set.of(A.class, B.class, Licznik.class, Kontekst.class, EBean.class);
 	}
 }

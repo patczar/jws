@@ -5,16 +5,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 @Path("/ejb")
 @Stateless
+// @Singleton // też działa
 public class EBean implements Serializable {
 	private static final long serialVersionUID = -2627946805995054930L;
 	
 	private AtomicInteger licznik = new AtomicInteger();
+
+// Dzięki temu, że jesteśmy w klasie EJB, można korzystać z adnotacji Java EE
+//	@PersistenceUnit
+//	private EntityManager em;
 	
 	public EBean() {
 		System.out.println("EBean konstruktor");

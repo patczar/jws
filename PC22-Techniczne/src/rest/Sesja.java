@@ -18,13 +18,15 @@ public class Sesja {
 	@GET
 	public int licznik() {
 		HttpSession sesja = request.getSession();
-		sesja.setMaxInactiveInterval(10); // po 10s sesja wygasa
-		AtomicInteger licznik = (AtomicInteger) sesja.getAttribute("x");
-		if(licznik == null) {
-			licznik = new AtomicInteger(100);
-			sesja.setAttribute("x", licznik);
-		}
-		
+		AtomicInteger licznik = null;
+		synchronized (sesja) {			
+			licznik = (AtomicInteger) sesja.getAttribute("x");
+			if(licznik == null) {
+				licznik = new AtomicInteger(100);
+				sesja.setAttribute("x", licznik);
+				sesja.setMaxInactiveInterval(10); // po 10s sesja wygasa
+			}
+		}	
 		return licznik.getAndIncrement();
 		// tak jakby return licznik++
 	}

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 // Można spróbować z takimi parametrami:
-// http://localhost:8080/PC10-Serwlety/Info?x=Ala&y=Ola&x=Ela&x=Ula&z=Asia
+// http://localhost:8080/PC13-Serwlety/Info?x=Ala&y=Ola&x=Ela&x=Ula&z=Asia
 
 @WebServlet("/Info")   // mogłby być też wpis w web.xml
 public class Info extends HttpServlet {
