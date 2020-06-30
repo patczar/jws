@@ -16,7 +16,10 @@
 			<artifactId>P-ogloszenia-model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
+		
+		<!-- Poniższe zależności są potrzebne, aby aplikacja kompilowała się w Javie >= 11 -->
+		<!--  W Javie 8 nie są potrzebne. -->
+		<!-- <dependency>
 			<groupId>javax.jws</groupId>
 			<artifactId>javax.jws-api</artifactId>
 			<version>1.1</version>
@@ -30,6 +33,6 @@
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
 			<version>2.3.2</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 </project>
