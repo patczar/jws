@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>pl.alx.multimodule</groupId>
+	<artifactId>P-ogloszenia-parent</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+	<modules>
+		<module>P-ogloszenia-model</module>
+		<module>P-ogloszenia-baza</module>
+		<module>P-ogloszenia-soap-api</module>
+		<module>P-ogloszenia-soap-klient</module>
+		<module>P-ogloszenia-soap-serwer</module>
+		<module>P-ogloszenia-gui</module>
+		<module>P-ogloszenia-web</module>
+		<module>P-ogloszenia-rest-api</module>
+		<module>P-ogloszenia-rest-klient</module>
+		<module>P-ogloszenia-rest-serwer</module>
+		<module>P-ogloszenia-ear</module>
+	</modules>
+</project>
