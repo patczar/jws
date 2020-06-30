@@ -1,5 +1,6 @@
 package ogloszenia.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -17,5 +18,11 @@ public class FotoUtil {
 		} catch (IOException e) {
 			throw new NieznanyRekord("Brak pliku ze zdjęciem " + plik);
 		}
-	}	
+	}
+
+    public static File jakoFile(int idOgloszenia) {
+        String katalog = Ustawienia.wczytaj().getProperty("katalog_foto");
+        String plik = idOgloszenia + ".jpg";
+        return new File(katalog, plik);
+    }
 }

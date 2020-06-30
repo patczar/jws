@@ -1,5 +1,7 @@
 package ogloszenia.rest;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
@@ -25,7 +27,6 @@ import javax.xml.transform.stream.StreamSource;
 import ogloszenia.baza.DostepDoBazy;
 import ogloszenia.baza.OgloszeniaDAO;
 import ogloszenia.exn.BladAplikacji;
-import ogloszenia.exn.BladBazyDanych;
 import ogloszenia.exn.NieznanyRekord;
 import ogloszenia.model.ListaOgloszen;
 import ogloszenia.model.Samochodowe;
@@ -112,7 +113,26 @@ public class ROgloszeniaHtml_v2_XSL {
 	@GET
 	@Path("/{id}/foto")
 	@Produces("image/jpeg")
-	public byte[] czytajFoto(@PathParam("id") int idOgloszenia) throws NieznanyRekord {
-		return FotoUtil.wczytajFoto(idOgloszenia);
+	public StreamingOutput czytajFoto(@PathParam("id") int idOgloszenia) throws NieznanyRekord {
+		File plik = FotoUtil.jakoFile(idOgloszenia);
+
+		// Taki sposób wysyłania zdjęcia tylko jako prezentacja jak działają Input/Output Streamy.
+		// Normalnie takie rzeczy robi się prościej.
+		return new StreamingOutput() {
+			public void write(OutputStream output) throws IOException, WebApplicationException {
+				byte[] bufor = new byte[1024];
+				
+				try(FileInputStream input = new FileInputStream(plik)) {
+					int ile;
+					while((ile = input.read(bufor)) != -1) {
+						output.write(bufor, 0, ile);
+						try {
+							Thread.sleep(200);
+						} catch (InterruptedException e) {
+						}
+					}
+				}
+			}
+		};
 	}
 }
