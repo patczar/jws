@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.example.org/kalkulator_rpc/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	name="kalkulator_rpc"
+	targetNamespace="http://www.example.org/kalkulator_rpc/">
+
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.example.org/kalkulator_rpc/">
+			<xsd:complexType name="WieleLiczb">
+				<xsd:sequence>
+					<xsd:element name="liczba" type="xsd:int" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="dwieLiczbyRequest">
+		<wsdl:part name="arg1" type="xsd:int" />
+		<wsdl:part name="arg2" type="xsd:int" />
+	</wsdl:message>
+
+	<wsdl:message name="jednaLiczbaResponse">
+		<wsdl:part name="wynik" type="xsd:int" />
+	</wsdl:message>
+
+	<wsdl:message name="wynikDzieleniaResponse">
+		<wsdl:part name="iloraz" type="xsd:int" />
+		<wsdl:part name="reszta" type="xsd:int" />
+	</wsdl:message>
+	
+	<wsdl:message name="wieleLiczbRequest">
+		<wsdl:part name="liczby" type="tns:WieleLiczb" />
+	</wsdl:message>
+
+	<wsdl:portType name="kalkulator_rpc">
+		<wsdl:operation name="add">
+			<wsdl:input message="tns:dwieLiczbyRequest" />
+			<wsdl:output message="tns:jednaLiczbaResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="sub">
+			<wsdl:input message="tns:dwieLiczbyRequest" />
+			<wsdl:output message="tns:jednaLiczbaResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="mul">
+			<wsdl:input message="tns:dwieLiczbyRequest" />
+			<wsdl:output message="tns:jednaLiczbaResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="div">
+			<wsdl:input message="tns:dwieLiczbyRequest" />
+			<wsdl:output message="tns:wynikDzieleniaResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="suma">
+			<wsdl:input message="tns:wieleLiczbRequest" />
+			<wsdl:output message="tns:jednaLiczbaResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="kalkulator_rpcSOAP" type="tns:kalkulator_rpc">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="add">
+			<soap:operation
+				soapAction="http://www.example.org/kalkulator_rpc/add" />
+			<wsdl:input>
+				<soap:body namespace="http://www.example.org/kalkulator_rpc/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body namespace="http://www.example.org/kalkulator_rpc/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="sub">
+			<soap:operation soapAction="http://www.example.org/kalkulator_rpc/sub" />
+			<wsdl:input>
+				<soap:body namespace="http://www.example.org/kalkulator_rpc/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body namespace="http://www.example.org/kalkulator_rpc/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="mul">
+			<soap:operation soapAction="http://www.example.org/kalkulator_rpc/mul" />
+			<wsdl:input>
+				<soap:body namespace="http://www.example.org/kalkulator_rpc/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body namespace="http://www.example.org/kalkulator_rpc/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="div">
+			<soap:operation soapAction="http://www.example.org/kalkulator_rpc/div" />
+			<wsdl:input>
+				<soap:body namespace="http://www.example.org/kalkulator_rpc/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body namespace="http://www.example.org/kalkulator_rpc/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="suma">
+			<soap:operation soapAction="http://www.example.org/kalkulator_rpc/suma" />
+			<wsdl:input>
+				<soap:body namespace="http://www.example.org/kalkulator_rpc/" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body namespace="http://www.example.org/kalkulator_rpc/" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="kalkulator_rpc">
+		<wsdl:port binding="tns:kalkulator_rpcSOAP"
+			name="kalkulator_rpcSOAP">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,20 @@
+# Przygotowanie kluczy używanych w przykładzie
+
+# Generowanie kluczy.
+# Wykonywać pojedynczo - polecenia są interaktywne
+keytool -genkeypair -keystore serwer.jks -storepass abc123 -alias serwer -keyalg RSA
+keytool -genkeypair -keystore klient.jks -storepass abc123 -alias klient -keyalg RSA
+
+# Wyeksportowanie certyfikatów (kluczy publicznych)
+keytool -export -keystore serwer.jks -storepass abc123 -alias serwer -file serwer.cer
+keytool -export -keystore klient.jks -storepass abc123 -alias klient -file klient.cer
+
+# I zaimportowanie ich do keystorów drugiej strony (serwer będzie znał public key klienta i na odwrót)
+keytool -import -keystore serwer.jks -storepass abc123 -alias klient -file klient.cer
+keytool -import -keystore klient.jks -storepass abc123 -alias serwer -file serwer.cer
+
+# Wersja uproszczona i wbrew zasadom: Skopiowanie całych kluczy z jednego keystore do drugiego.
+# W obu będą także klucze prywatne drugiej strony
+# keytool -importkeystore -srckeystore serwer.jks -destkeystore klient.jks -srcstorepass abc123 -deststorepass abc123 -srcalias serwer -destalias serwer
+# keytool -importkeystore -srckeystore klient.jks -destkeystore serwer.jks -srcstorepass abc123 -deststorepass abc123 -srcalias klient -destalias klient
+

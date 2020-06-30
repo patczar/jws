@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.example.org/kalkulator/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="kalkulator"
+	targetNamespace="http://www.example.org/kalkulator/">
+
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.example.org/kalkulator/">
+			<xsd:complexType name="DwieLiczby">
+				<xsd:sequence>
+					<xsd:element name="arg1" type="xsd:int" />
+					<xsd:element name="arg2" type="xsd:int" />
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="WieleLiczb">
+				<xsd:sequence>
+					<xsd:element name="liczba" type="xsd:int" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="Wynik">
+				<xsd:sequence>
+					<xsd:element name="wynik" type="xsd:int" />
+				</xsd:sequence>
+			</xsd:complexType>
+		
+			<xsd:complexType name="WynikDzielenia">
+				<xsd:sequence>
+					<xsd:element name="iloraz" type="xsd:int" />
+					<xsd:element name="reszta" type="xsd:int" />
+				</xsd:sequence>
+			</xsd:complexType>
+		
+			<!-- W tej wersji elementy w zapytaniach mają nazwy identyczne jak operacje. -->
+			<xsd:element name="add" type="tns:DwieLiczby"/>
+			<xsd:element name="addResponse" type="tns:Wynik"/>
+			
+			<xsd:element name="sub" type="tns:DwieLiczby"/>
+			<xsd:element name="subResponse" type="tns:Wynik"/>
+			
+			<xsd:element name="mul" type="tns:DwieLiczby"/>
+			<xsd:element name="mulResponse" type="tns:Wynik"/>
+			
+			<xsd:element name="div" type="tns:DwieLiczby"/>
+			<xsd:element name="divResponse" type="tns:WynikDzielenia"/>
+			
+			<xsd:element name="sum" type="tns:WieleLiczb"/>
+			<xsd:element name="sumResponse" type="tns:Wynik"/>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="addRequest">
+		<wsdl:part name="parameters" element="tns:add" />
+	</wsdl:message>
+	<wsdl:message name="addResponse">
+		<wsdl:part name="parameters" element="tns:addResponse" />
+	</wsdl:message>
+	<wsdl:message name="subRequest">
+		<wsdl:part name="parameters" element="tns:sub" />
+	</wsdl:message>
+	<wsdl:message name="subResponse">
+		<wsdl:part name="parameters" element="tns:subResponse" />
+	</wsdl:message>
+	<wsdl:message name="mulRequest">
+		<wsdl:part name="parameters" element="tns:mul" />
+	</wsdl:message>
+	<wsdl:message name="mulResponse">
+		<wsdl:part name="parameters" element="tns:mulResponse" />
+	</wsdl:message>
+	<wsdl:message name="divRequest">
+		<wsdl:part name="parameters" element="tns:div" />
+	</wsdl:message>
+	<wsdl:message name="divResponse">
+		<wsdl:part name="parameters" element="tns:divResponse" />
+	</wsdl:message>
+	<wsdl:message name="sumRequest">
+		<wsdl:part name="parameters" element="tns:sum" />
+	</wsdl:message>
+	<wsdl:message name="sumResponse">
+		<wsdl:part name="parameters" element="tns:sumResponse" />
+	</wsdl:message>
+
+	<!-- To jest definicja mojej usługi. -->
+	<wsdl:portType name="kalkulator">
+		<wsdl:operation name="add">
+			<wsdl:documentation>
+				To jest operacja, która dodaje dwie liczby.
+			</wsdl:documentation>
+			<wsdl:input message="tns:addRequest" />
+			<wsdl:output message="tns:addResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="sub">
+			<wsdl:input message="tns:subRequest" />
+			<wsdl:output message="tns:subResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="mul">
+			<wsdl:input message="tns:mulRequest" />
+			<wsdl:output message="tns:mulResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="div">
+			<wsdl:input message="tns:divRequest" />
+			<wsdl:output message="tns:divResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="sum">
+			<wsdl:input message="tns:sumRequest" />
+			<wsdl:output message="tns:sumResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="kalkulatorSOAP" type="tns:kalkulator">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="add">
+			<soap:operation soapAction="http://www.example.org/kalkulator/add" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="sub">
+			<soap:operation soapAction="http://www.example.org/kalkulator/sub" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="mul">
+			<soap:operation soapAction="http://www.example.org/kalkulator/mul" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="div">
+			<soap:operation soapAction="http://www.example.org/kalkulator/div" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="sum">
+			<soap:operation soapAction="http://www.example.org/kalkulator/sum" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="kalkulator">
+		<wsdl:port binding="tns:kalkulatorSOAP"	name="kalkulatorSOAP">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

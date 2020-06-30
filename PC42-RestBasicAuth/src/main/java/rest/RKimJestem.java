@@ -25,7 +25,7 @@ public class RKimJestem {
 			Principal principal = securityContext.getUserPrincipal();
 			sb.append("principal: " + principal+"\n");
 			if(principal != null) {
-				sb.append("name: " + principal.getName());
+				sb.append("name: " + principal.getName()+"\n");
 			}
 			
 			sb.append("authenticationScheme: " + securityContext.getAuthenticationScheme()+"\n");

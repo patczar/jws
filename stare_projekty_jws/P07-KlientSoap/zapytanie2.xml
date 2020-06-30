@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+		xmlns:ogl="http://soap.ogloszenia/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ogl:jednoOgloszenie>
+         <id>3</id>
+      </ogl:jednoOgloszenie>
+   </soapenv:Body>
+</soapenv:Envelope>

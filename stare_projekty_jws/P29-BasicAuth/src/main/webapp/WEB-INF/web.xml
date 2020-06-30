@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<display-name>P29-BasicAuth</display-name>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>ApplicationRealm</realm-name>
+	</login-config>
+
+	<security-role>
+		<role-name>ogloszenia</role-name>
+	</security-role>
+	<security-role>
+		<role-name>admin</role-name>
+	</security-role>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Sprzedawcy</web-resource-name>
+			<url-pattern>/sprzedawcy/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ogloszenia</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>TajneOgloszenia</web-resource-name>
+			<url-pattern>/tajne-ogloszenia/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ogloszenia</role-name>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+ 	<context-param>
+		<param-name>resteasy.role.based.security</param-name>
+		<param-value>true</param-value>
+	</context-param>
+</web-app>

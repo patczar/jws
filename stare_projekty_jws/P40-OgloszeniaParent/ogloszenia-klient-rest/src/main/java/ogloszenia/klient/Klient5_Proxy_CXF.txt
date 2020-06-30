@@ -1,0 +1,50 @@
+package ogloszenia.klient;
+
+import java.math.BigDecimal;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+
+import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
+
+import ogloszenia.exn.BladDanych;
+import ogloszenia.exn.NieznanyRekord;
+import ogloszenia.model.OgloszenieSamochodowe;
+import ogloszenia.rest.IOgloszenia;
+
+public class Klient3_Proxy_CXF {
+	private Client klient;
+	private WebTarget root;
+	
+	public static void main(String[] args) {
+		new Klient3_Proxy_CXF().run();
+	}
+	
+	public void run() {		
+
+		SerwisOgloszeniowy proxy = JAXRSClientFactory.
+			create(Ustawienia.ADRES_USLUGI, IOgloszenia.class);
+		
+		
+		try {
+			OgloszenieSamochodowe ogl2 = proxy.ogloszeniePoId(2);
+			
+			System.out.println(ogl2);
+			
+			System.out.println(ogl2.getCena());
+			
+			
+			ogl2.setCena(new BigDecimal(66000));
+			
+			proxy.zapiszOgloszenie(2, ogl2);
+			
+			System.out.println("done");
+			
+			
+		} catch (BladDanych | NieznanyRekord e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+}
