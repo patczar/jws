@@ -1,5 +1,10 @@
 package ogloszenia.rest;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
@@ -16,6 +21,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import ogloszenia.baza.DostepDoBazy;
@@ -23,7 +29,6 @@ import ogloszenia.baza.OgloszeniaDAO;
 import ogloszenia.exn.BladBazyDanych;
 import ogloszenia.exn.NieznanyRekord;
 import ogloszenia.model.Samochodowe;
-import ogloszenia.model.Sprzedawca;
 import ogloszenia.util.FotoUtil;
 
 @Path("/ogloszenia")
@@ -113,45 +118,89 @@ public class ROgloszenia {
 		}
 	}
 	
-	
 	@Path("/{id}/sprzedawca")
 	@Produces({"application/xml", "application/json", "text/plain"})
 	@GET
-	public Sprzedawca getSprzedawca(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
+	public Response getSprzedawca(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
-			return dao.odczytajWgId(idOgloszenia).getSprzedawca();
+			Samochodowe ogloszenie = dao.odczytajWgId(idOgloszenia);
+			
+			// Aby zapewnić, że zasoby (tutaj: sprzedawcy) mają unikalne URI,
+			// zamiast zwracać tutaj obiekt Sprzedawca, wysyłamy przekierowanie do URI tego sprzedawcy.
+			
+			// UriBuilder.fromResource - uzyskanie adresu, pod którym działa dana klasa zasobu.
+			URI uriSprzedawcy = UriBuilder.fromResource(RSprzedawcy.class)
+					.path("{id-sprzedawcy}")
+					.build(ogloszenie.getIdSprzedawcy());
+				
+			return Response.seeOther(uriSprzedawcy).build();
 		}
 	}
 	
 	@Path("/{id}/cena")
 	@Produces({"application/json", "text/plain"})
 	@GET
-	public BigDecimal getCena(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
+	public Response getCena(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
-			return dao.odczytajWgId(idOgloszenia).getCena();
+			Samochodowe ogloszenie = dao.odczytajWgId(idOgloszenia);
+			return Response.ok()
+					.entity(ogloszenie.getCena())
+					.build();
 		}
 	}
 	
 	@Path("/{id}/cena")
 	@Consumes({"application/json", "text/plain"})
 	@PUT
-	// na jedyny parametr pozbawiony adnotacji zostanie wpisana treść (body / entity) przysłana w zapytaniu od klienta
-	public void setCena(@PathParam("id") int idOgloszenia,
-			BigDecimal nowaCena) throws BladBazyDanych, NieznanyRekord {
+	public Response setCena(@PathParam("id") int idOgloszenia, BigDecimal nowaCena) {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
 			Samochodowe ogl = dao.odczytajWgId(idOgloszenia);
 			ogl.setCena(nowaCena);
 			dao.aktualizuj(ogl);
+			return Response.noContent().build(); // tak samo jak gdyby metoda była typu void
+		} catch (BladBazyDanych e) {
+			String html = "<html><body><p style='color:red'>Błąd zapisu do bazy danych</p></body></html>";
+			
+			return Response.serverError()
+					.type(MediaType.TEXT_HTML)
+					.entity(html)
+					.build();
+		} catch (NieznanyRekord e) {
+			String html = "<html><body><p style='color:red'>Nie znaleziono ogłoszenia nr " + idOgloszenia + "</p></body></html>";
+			
+			return Response.status(404)
+					.type(MediaType.TEXT_HTML)
+					.entity(html)
+					.build();
 		}
 	}
 	
 	@GET
 	@Path("/{id}/foto")
 	@Produces("image/jpeg")
-	public byte[] czytajFoto(@PathParam("id") int idOgloszenia) throws NieznanyRekord {
-		return FotoUtil.wczytajFoto(idOgloszenia);
+	public Response czytajFoto(@PathParam("id") int idOgloszenia) throws NieznanyRekord {
+		String plik = idOgloszenia + ".jpg";
+		File file = FotoUtil.jakoFile(idOgloszenia);
+		// informacja dla przeglądarki, pod jaką nazwą zapisać plik
+		String naglowek = String.format("inline;filename=%s", plik);
+
+		// To podejście jest bardziej wydajne niż zwracanie byte[] jeśli dane do wysłania są duże.
+		try {
+			InputStream dane = new BufferedInputStream(new FileInputStream(file));			
+			return Response.ok()
+				.type("image/jpeg")
+				.header("Content-Disposition", naglowek)
+				.entity(dane)
+				.build();
+		} catch (FileNotFoundException e) {
+			String html = "<html><body><p style='color:red'>Brak zdjęcia dla ogłoszenia nr " + idOgloszenia + "</p></body></html>";
+			return Response.status(404)
+					.type(MediaType.TEXT_HTML)
+					.entity(html)
+					.build();
+		}
 	}
 }
