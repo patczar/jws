@@ -141,12 +141,28 @@ public class ROgloszenia {
 	@Path("/{id}/cena")
 	@Produces({"application/json", "text/plain"})
 	@GET
-	public Response getCena(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
+	public Response getCena(@PathParam("id") int idOgloszenia) {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
 			Samochodowe ogloszenie = dao.odczytajWgId(idOgloszenia);
 			return Response.ok()
 					.entity(ogloszenie.getCena())
+					.build();
+		} catch (NieznanyRekord e) {
+			String html = "<html><body><p style='color:red'>Nie znaleziono ogłoszenia nr " + idOgloszenia + "</p></body></html>";
+			
+			return Response.status(404)
+					.type(MediaType.TEXT_HTML)
+					.language(new Locale("pl", "PL"))
+					.entity(html)
+					.build();
+		} catch (BladBazyDanych e) {
+			String html = "<html><body><p style='color:red'>Błąd odczytu z bazy danych</p></body></html>";
+			
+			return Response.status(500)
+					.type(MediaType.TEXT_HTML)
+					.language(new Locale("pl", "PL"))
+					.entity(html)
 					.build();
 		}
 	}
