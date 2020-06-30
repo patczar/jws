@@ -17,6 +17,7 @@ import ogloszenia.baza.DostepDoBazy;
 import ogloszenia.baza.OgloszeniaDAO;
 import ogloszenia.exn.BladBazyDanych;
 import ogloszenia.exn.NieznanyRekord;
+import ogloszenia.model.ListaOgloszen;
 import ogloszenia.model.Samochodowe;
 import ogloszenia.model.Sprzedawca;
 import ogloszenia.util.FotoUtil;
@@ -26,12 +27,13 @@ public class ROgloszenia {
 
 	@Produces({"application/xml", "application/json", "text/plain"})
 	@GET
-	public List<Samochodowe> odczytajWszystkie(
+	public ListaOgloszen odczytajWszystkie(
 			@QueryParam("min") BigDecimal min,
 			@QueryParam("max") BigDecimal max) throws BladBazyDanych {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
-			return dao.odczytajWedlugCeny(min, max);
+			List<Samochodowe> ogloszenia = dao.odczytajWedlugCeny(min, max);
+			return new ListaOgloszen(ogloszenia);
 		}
 	}
 	
