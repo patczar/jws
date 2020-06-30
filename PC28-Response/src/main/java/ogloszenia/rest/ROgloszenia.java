@@ -1,10 +1,11 @@
 package ogloszenia.rest;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -12,6 +13,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import ogloszenia.baza.DostepDoBazy;
 import ogloszenia.baza.OgloszeniaDAO;
@@ -23,21 +28,24 @@ import ogloszenia.util.FotoUtil;
 
 @Path("/ogloszenia")
 public class ROgloszenia {
-
+	@Context
+	private UriInfo uriInfo;
+	
 	@Produces({"application/xml", "application/json", "text/plain"})
 	@GET
-	public List<Samochodowe> odczytajWszystkie(
+	public Response odczytajWszystkie(
 			@QueryParam("min") BigDecimal min,
 			@QueryParam("max") BigDecimal max) throws BladBazyDanych {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
-			return dao.odczytajWedlugCeny(min, max);
+			List<Samochodowe> lista = dao.odczytajWedlugCeny(min, max);
+			return Response.ok(lista).build();
 		}
 	}
 	
 	@GET
 	@Produces("text/html")
-	public String odczytajWszystkieLubWedlugCeny(
+	public Response odczytajWszystkieLubWedlugCeny(
 			@QueryParam("min") BigDecimal min,
 			@QueryParam("max") BigDecimal max) throws BladBazyDanych {
 
@@ -51,7 +59,7 @@ public class ROgloszenia {
 				wynik.append(ogl.dajHtml());
 			}
 			wynik.append("</body></html>");
-			return wynik.toString();
+			return Response.ok(wynik.toString(), "text/html;charset=UTF-8").build();
 		}
 	}
 
@@ -59,13 +67,17 @@ public class ROgloszenia {
 	// dla których nie jest z góry znane ID (i co za tym idzie docelowy adres)
 	@POST
 	@Consumes({"application/xml", "application/json"})
-	@Produces({"application/xml", "application/json"})
-	public Samochodowe zapiszOgloszenie(Samochodowe ogloszenie) throws BladBazyDanych {
+	public Response zapiszOgloszenie(Samochodowe ogloszenie) throws BladBazyDanych {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
-			dao.zapisz(ogloszenie);
-			// zwracam uzupełniony obiekt - dzięki temu klient dowie się jakie jest jego id
-			return ogloszenie;
+			dao.dodajNowy(ogloszenie);
+			Integer id = ogloszenie.getIdOgloszenia();
+
+			// Buduję ścieżkę startującą w miejscu, pod które przyszło zapytanie.
+			// Dopisuję poznane id ogłoszenia i odsyłam jako 201 Created z nagłówkiem Location wskazującym nowo powstały zasób.
+			URI uri = uriInfo.getAbsolutePathBuilder().path("{id}").build(id);
+			
+			return Response.created(uri).build();
 		}
 	}
 
@@ -75,32 +87,32 @@ public class ROgloszenia {
 	@GET
 	@Path("/{id}")
 	@Produces({"application/xml", "application/json", "text/plain"})
-	public Samochodowe odczytajJedno(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
+	public Response odczytajJedno(@PathParam("id") int idOgloszenia) {
 		try(DostepDoBazy db = new DostepDoBazy()) {
 			OgloszeniaDAO dao = db.ogloszeniaDAO();
-			return dao.odczytajWgId(idOgloszenia);
+			Samochodowe ogloszenie = dao.odczytajWgId(idOgloszenia);
+			return Response.ok(ogloszenie)
+					.language(new Locale("pl", "PL"))
+					.build();
+		} catch (NieznanyRekord e) {
+			String html = "<html><body><p style='color:red'>Nie znaleziono ogłoszenia nr " + idOgloszenia + "</p></body></html>";
+			
+			return Response.status(404)
+					.type(MediaType.TEXT_HTML)
+					.language(new Locale("pl", "PL"))
+					.entity(html)
+					.build();
+		} catch (BladBazyDanych e) {
+			String html = "<html><body><p style='color:red'>Błąd odczytu z bazy danych</p></body></html>";
+			
+			return Response.status(500)
+					.type(MediaType.TEXT_HTML)
+					.language(new Locale("pl", "PL"))
+					.entity(html)
+					.build();
 		}
 	}
 	
-	// Można też zdefiniować osobną metodę, która zwraca ten sam zasób (określony URL-em)
-	// w innym formacie - jeśli wymaga to innej implementacji.
-	// W zależności od wyboru klienta (Accept) zostanie wywołania odpowiednia metoda.
-	@GET
-	@Path("/{id}")
-	@Produces("text/html")
-	public String jednoOgloszenie(
-				@PathParam("id") int idOgloszenia
-			) throws BladBazyDanych, NieznanyRekord {
-		try (DostepDoBazy db = new DostepDoBazy()) {
-			OgloszeniaDAO dao = db.ogloszeniaDAO();
-			Samochodowe ogloszenie = dao.odczytajWgId(idOgloszenia);
-			StringBuilder wynik = new StringBuilder();
-            wynik.append("<html><body>");
-            wynik.append(ogloszenie.dajHtml());
-            wynik.append("</body></html>");
-            return wynik.toString();
-		}
-	}
 	
 	@Path("/{id}/sprzedawca")
 	@Produces({"application/xml", "application/json", "text/plain"})
@@ -136,41 +148,6 @@ public class ROgloszenia {
 		}
 	}
 	
-	@Path("/{id}/opis")
-	@Produces({"text/plain"})
-	@GET
-	public String getOpis(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
-		try(DostepDoBazy db = new DostepDoBazy()) {
-			OgloszeniaDAO dao = db.ogloszeniaDAO();
-			Samochodowe ogl = dao.odczytajWgId(idOgloszenia);
-			return ogl.getOpis();
-		}
-	}
-	
-	@Path("/{id}/opis")
-	@Consumes({"text/plain"})
-	@PUT
-	public void setOpis(@PathParam("id") int idOgloszenia,
-			String nowyOpis) throws BladBazyDanych, NieznanyRekord {
-		try(DostepDoBazy db = new DostepDoBazy()) {
-			OgloszeniaDAO dao = db.ogloszeniaDAO();
-			Samochodowe ogl = dao.odczytajWgId(idOgloszenia);
-			ogl.setOpis(nowyOpis);
-			dao.aktualizuj(ogl);
-		}
-	}
-	
-	@Path("/{id}/opis")
-	@DELETE
-	public void delOpis(@PathParam("id") int idOgloszenia) throws BladBazyDanych, NieznanyRekord {
-		try(DostepDoBazy db = new DostepDoBazy()) {
-			OgloszeniaDAO dao = db.ogloszeniaDAO();
-			Samochodowe ogl = dao.odczytajWgId(idOgloszenia);
-			ogl.setOpis(null);
-			dao.aktualizuj(ogl);
-		}
-	}
-
 	@GET
 	@Path("/{id}/foto")
 	@Produces("image/jpeg")
