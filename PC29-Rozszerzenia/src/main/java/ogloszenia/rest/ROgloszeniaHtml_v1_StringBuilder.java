@@ -16,9 +16,9 @@ import ogloszenia.exn.NieznanyRekord;
 import ogloszenia.model.Samochodowe;
 import ogloszenia.util.FotoUtil;
 
-@Path("/ogloszenia.html")
+@Path("/ogloszenia1.html")
 @Produces("text/html;charset=utf-8")
-public class ROgloszeniaHtml {
+public class ROgloszeniaHtml_v1_StringBuilder {
 	@GET
 	public String odczytajWszystkieLubWedlugCeny(
 			@QueryParam("min") BigDecimal min,
