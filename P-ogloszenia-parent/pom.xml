@@ -24,5 +24,6 @@
 		<module>P-ogloszenia-rest-klient</module>
 		<module>P-ogloszenia-rest-serwer</module>
 		<module>P-ogloszenia-ear</module>
+		<module>WspolneZalewznosci</module>
 	</modules>
 </project>

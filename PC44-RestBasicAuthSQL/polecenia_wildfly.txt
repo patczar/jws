@@ -1,0 +1,41 @@
+# Polecenia do wykonania z konsoli JBossa, czyli jboss-cli
+
+# Instalacja sterownika JDBC na serwerze.
+# Zamiast tego można fizycznie wgrać plik do standalone/deployments, albo zrobić to przez webowy panel administratora.
+
+deploy /path/to/postgresql-42.2.8.jar
+
+# Zdefiniowanie data-source, czyli połączenia z bazą, którym zarządza serwer.
+# Na zajęciach zrobiliśmy to przez webowy panel administratora.
+
+data-source add --name=FakturyDS --jndi-name=java:/FakturyDS --driver-name=postgresql-42.2.8.jar  --connection-url=jdbc:postgresql://localhost:5432/faktury --user-name=faktury --password=abc123
+
+# Jeśli nie macie lokalnej instalacji PostgreSQL, to (dopóki baza istnieje...) możecie podłączyć się do mojego serwera VSP u dostawcy OVH.
+# Wtedy konfiguracja wyglądałaby tak:
+data-source add --name=FakturyDS --jndi-name=java:/FakturyDS --driver-name=postgresql-42.2.8.jar  --connection-url=jdbc:postgresql://vps497901.ovh.net:5432/faktury --user-name=faktury --password=abc123
+
+
+# Definicja jdbc-realm, czyli zbioru użytkowników, który zdefiniowany jest w bazie danych.
+# Należy podać zapytanie, które dla parametru "nazwa użytkownika" zwraca jego hasło
+# i - zazwyczaj też jest to potrzebne - grupy/role tego użytkownika.
+
+/subsystem=elytron/jdbc-realm=FakturyRealm:add(principal-query=[{sql="SELECT 'uprawniony', password FROM uzytkownicy WHERE username = ?",data-source=FakturyDS,clear-password-mapper={password-index=2},attribute-mapping=[{index=1,to=groups}]}])
+
+# Więcej możliwości - inne mappery haseł, więcej atrybutów, łączenie wielu tabel - w dokumentacji.
+
+
+# Definicja security-domain, czyli globalnej struktury określającej zasady bezpieczeństwa.
+
+/subsystem=elytron/security-domain=FakturySD:add(realms=[{realm=FakturyRealm,role-decoder=groups-to-roles}],default-realm=FakturyRealm,permission-mapper=default-permission-mapper)
+
+
+# Definicja http-authentication-factory, czyli zasad uwierzytenienia dla aplikacji webowych.
+# Krok pośredni potrzebny w połączeniu aplikacji webowej z wcześniej zdefiniowanym security-domain.
+
+/subsystem=elytron/http-authentication-factory=FakturyHttpAuth:add(http-server-mechanism-factory=global,security-domain=FakturySD,mechanism-configurations=[{mechanism-name=BASIC,mechanism-realm-configurations=[{realm-name=FakturyRealm}]}])
+
+
+# Definicja application-security-domain, czyli struktury określającej zasady bezpieczeństwa dla konkretnej aplikacji (tu dla rodzaju aplikacji: aplikacji webowych).
+
+/subsystem=undertow/application-security-domain=FakturyApplicationDomain:add(http-authentication-factory=FakturyHttpAuth)
+
