@@ -1,12 +1,9 @@
 package ogloszenia.klient;
 
-import java.util.List;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
 import ogloszenia.model.ListaOgloszen;
@@ -23,6 +20,7 @@ public class Klient7_JSON_Obiektowo {
 			.path("/ogloszenia")
 			.request()
 			.accept("application/json")
+			.header("User-Agent", "Firefox")
 			.buildGet();
 		
 		System.out.println("Zaraz wyślę zapytanie...");
