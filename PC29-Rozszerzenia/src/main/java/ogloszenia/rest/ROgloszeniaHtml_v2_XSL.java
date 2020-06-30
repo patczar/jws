@@ -5,12 +5,14 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.StreamingOutput;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.util.JAXBSource;
@@ -32,6 +34,10 @@ import ogloszenia.util.FotoUtil;
 @Path("/ogloszenia2.html")
 @Produces("text/html;charset=utf-8")
 public class ROgloszeniaHtml_v2_XSL {
+	
+	@Context
+	private ServletContext servletContext;
+	
 	@GET
 	public StreamingOutput odczytajWszystkieLubWedlugCeny(@QueryParam("min") BigDecimal min,
 			@QueryParam("max") BigDecimal max) throws BladAplikacji {
@@ -46,7 +52,7 @@ public class ROgloszeniaHtml_v2_XSL {
 				JAXBContext jaxbContext = JAXBContext.newInstance(ListaOgloszen.class);
 				JAXBSource source = new JAXBSource(jaxbContext, lista);
 
-				StreamSource gdzieJestXsl = new StreamSource("/home/patryk/eclipse-kursy/20200622-JWS_Energa/PC29-Rozszerzenia/src/main/webapp/WEB-INF/ogloszenia-html.xsl");
+				StreamSource gdzieJestXsl = new StreamSource(servletContext.getResourceAsStream("/WEB-INF/ogloszenia-html.xsl"));
 
 				TransformerFactory tf = TransformerFactory.newInstance();
 				Transformer transformer = tf.newTransformer(gdzieJestXsl);
@@ -80,7 +86,7 @@ public class ROgloszeniaHtml_v2_XSL {
 				JAXBContext jaxbContext = JAXBContext.newInstance(ListaOgloszen.class);
 				JAXBSource source = new JAXBSource(jaxbContext, ogloszenie);
 
-				StreamSource gdzieJestXsl = new StreamSource("/home/patryk/eclipse-kursy/20200622-JWS_Energa/PC29-Rozszerzenia/src/main/webapp/WEB-INF/ogloszenia-html.xsl");
+				StreamSource gdzieJestXsl = new StreamSource(servletContext.getResourceAsStream("/WEB-INF/ogloszenia-html.xsl"));
 
 				TransformerFactory tf = TransformerFactory.newInstance();
 				Transformer transformer = tf.newTransformer(gdzieJestXsl);
