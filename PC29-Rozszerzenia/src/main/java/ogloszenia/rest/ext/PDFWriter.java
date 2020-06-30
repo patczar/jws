@@ -44,7 +44,7 @@ public class PDFWriter implements MessageBodyWriter<Object> {
 			Ogloszenie ogloszenie = (Ogloszenie) obiekt;
 			fileName = String.format("ogloszenie-%04d.pdf", ogloszenie.getIdOgloszenia());
 		}
-		// httpHeaders.add("Content-Disposition", "attachment;filename=" + fileName);
+		//httpHeaders.add("Content-Disposition", "attachment;filename=" + fileName);
 		httpHeaders.add("Content-Disposition", "inline;filename=" + fileName);
 		
 		WsparcieXSL wsparcie = new WsparcieXSL(servletContext);
